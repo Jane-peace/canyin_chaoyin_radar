@@ -1,0 +1,2022 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>新茶饮论坛监测 - 行业活动雷达</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #f0fdf4 0%, #ecfdf5 50%, #f0fdfa 100%);
+            min-height: 100vh;
+        }
+        
+        .glass-card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+        }
+        
+        .status-pulse {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        
+        .tag-shanghai {
+            background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+            box-shadow: 0 2px 8px rgba(249, 115, 22, 0.3);
+        }
+        
+        .tag-yzrd {
+            background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+            box-shadow: 0 2px 8px rgba(139, 92, 246, 0.3);
+        }
+        
+        .tag-type-industry {
+            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+            box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);
+        }
+        
+        .tag-type-innovation {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);
+        }
+        
+        .tag-type-expo {
+            background: linear-gradient(135deg, #a16207 0%, #854d0e 100%);
+            box-shadow: 0 2px 8px rgba(161, 98, 7, 0.3);
+        }
+        
+        .tag-type-brand {
+            background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+            box-shadow: 0 2px 8px rgba(249, 115, 22, 0.3);
+        }
+        
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 40px rgba(16, 185, 129, 0.15);
+        }
+        
+        .gradient-text {
+            background: linear-gradient(135deg, #059669 0%, #10b981 50%, #14b8a6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .scope-card {
+            transition: all 0.2s ease;
+        }
+        
+        .scope-card:hover {
+            background: rgba(16, 185, 129, 0.08);
+            border-color: #10b981;
+        }
+        
+        .filter-btn {
+            transition: all 0.2s ease;
+        }
+        
+        .filter-btn.active {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+        }
+        
+        .filter-btn:not(.active):hover {
+            background: rgba(16, 185, 129, 0.1);
+        }
+        
+        .collapse-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease, padding 0.4s ease;
+        }
+        
+        .collapse-content.expanded {
+            max-height: 2000px;
+        }
+        
+        .chevron {
+            transition: transform 0.3s ease;
+        }
+        
+        .chevron.rotated {
+            transform: rotate(180deg);
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.4s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .count-up {
+            font-variant-numeric: tabular-nums;
+        }
+        
+        .event-card {
+            transition: all 0.3s ease;
+        }
+        
+        .event-card.hidden-event {
+            display: none;
+        }
+        
+        .border-industry { border-left: 4px solid #3b82f6; }
+        .border-innovation { border-left: 4px solid #10b981; }
+        .border-expo { border-left: 4px solid #a16207; }
+        .border-brand { border-left: 4px solid #f97316; }
+    </style>
+</head>
+<body class="pb-12">
+    <!-- 顶部导航 -->
+    <header class="sticky top-0 z-50 glass-card border-b border-emerald-100">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 py-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-400 to-emerald-600 flex items-center justify-center shadow-lg shadow-emerald-200">
+                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                        </svg>
+                    </div>
+                    <div>
+                        <h1 class="text-lg sm:text-xl font-bold gradient-text">新茶饮论坛监测</h1>
+                        <p class="text-xs text-emerald-600/70 hidden sm:block">行业活动雷达</p>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-2">
+                    <span class="status-pulse w-2 h-2 rounded-full bg-emerald-500"></span>
+                    <span class="text-sm text-emerald-700 font-medium">监测中</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-6xl mx-auto px-4 sm:px-6 py-6 sm:py-8">
+        <!-- 标题区域 -->
+        <section class="text-center mb-8 sm:mb-10">
+            <h2 class="text-2xl sm:text-3xl font-bold text-emerald-900 mb-3">
+                新茶饮论坛监测仪表盘
+                <span class="inline-block ml-2 px-3 py-1 text-sm font-medium bg-emerald-100 text-emerald-700 rounded-full align-middle">
+                    2026年度全览
+                </span>
+            </h2>
+            <p class="text-emerald-700/70 text-sm sm:text-base max-w-2xl mx-auto">
+                追踪国内新茶饮行业论坛、峰会、大会，重点关注上海及长三角地区
+            </p>
+        </section>
+
+        <!-- 快速概览卡片 -->
+        <section class="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 mb-8">
+            <div class="glass-card rounded-2xl p-4 text-center card-hover">
+                <div class="text-2xl sm:text-3xl font-bold text-emerald-600 mb-1 count-up">22</div>
+                <div class="text-xs sm:text-sm text-emerald-700/60">活动总数</div>
+            </div>
+            <div class="glass-card rounded-2xl p-4 text-center card-hover">
+                <div class="text-2xl sm:text-3xl font-bold text-teal-500 mb-1 count-up">7</div>
+                <div class="text-xs sm:text-sm text-emerald-700/60">即将举办</div>
+            </div>
+            <div class="glass-card rounded-2xl p-4 text-center card-hover">
+                <div class="text-2xl sm:text-3xl font-bold text-orange-500 mb-1 count-up">5</div>
+                <div class="text-xs sm:text-sm text-emerald-700/60">上海地区</div>
+            </div>
+            <div class="glass-card rounded-2xl p-4 text-center card-hover">
+                <div class="text-2xl sm:text-3xl font-bold text-purple-500 mb-1 count-up">13</div>
+                <div class="text-xs sm:text-sm text-emerald-700/60">长三角地区</div>
+            </div>
+        </section>
+
+        <!-- 筛选栏 -->
+        <section class="glass-card rounded-2xl p-4 sm:p-5 mb-8 shadow-sm">
+            <div class="flex flex-col sm:flex-row sm:items-center gap-4">
+                <div class="flex items-center space-x-2">
+                    <svg class="w-5 h-5 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"></path>
+                    </svg>
+                    <span class="font-semibold text-emerald-900 text-sm">筛选活动</span>
+                </div>
+                <div class="flex flex-wrap gap-2">
+                    <span class="text-xs text-emerald-700/60 self-center mr-1">类型：</span>
+                    <button class="filter-btn active px-3 py-1.5 text-xs sm:text-sm rounded-lg font-medium text-emerald-700 bg-emerald-50" data-filter-type="all">全部</button>
+                    <button class="filter-btn px-3 py-1.5 text-xs sm:text-sm rounded-lg font-medium text-blue-700 bg-blue-50" data-filter-type="industry">行业大会</button>
+                    <button class="filter-btn px-3 py-1.5 text-xs sm:text-sm rounded-lg font-medium text-emerald-700 bg-emerald-50" data-filter-type="innovation">产品创新</button>
+                    <button class="filter-btn px-3 py-1.5 text-xs sm:text-sm rounded-lg font-medium text-amber-700 bg-amber-50" data-filter-type="expo">茶博会</button>
+                    <button class="filter-btn px-3 py-1.5 text-xs sm:text-sm rounded-lg font-medium text-orange-700 bg-orange-50" data-filter-type="brand">品牌活动</button>
+                </div>
+                <div class="flex flex-wrap gap-2 sm:ml-auto">
+                    <span class="text-xs text-emerald-700/60 self-center mr-1">地区：</span>
+                    <button class="filter-btn active px-3 py-1.5 text-xs sm:text-sm rounded-lg font-medium text-emerald-700 bg-emerald-50" data-filter-region="all">全部</button>
+                    <button class="filter-btn px-3 py-1.5 text-xs sm:text-sm rounded-lg font-medium text-orange-700 bg-orange-50" data-filter-region="shanghai">🏙️ 上海</button>
+                    <button class="filter-btn px-3 py-1.5 text-xs sm:text-sm rounded-lg font-medium text-purple-700 bg-purple-50" data-filter-region="yangtze">🌟 长三角</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- 即将举办区域 -->
+        <section class="mb-10" id="upcoming-section">
+            <div class="flex items-center justify-between mb-4 sm:mb-5">
+                <div class="flex items-center space-x-2">
+                    <div class="w-1 h-5 sm:h-6 bg-gradient-to-b from-teal-500 to-emerald-300 rounded-full"></div>
+                    <h3 class="text-lg sm:text-xl font-bold text-emerald-900">即将举办</h3>
+                    <span class="px-2.5 py-0.5 text-xs font-semibold bg-teal-100 text-teal-700 rounded-full" id="upcoming-count">7场</span>
+                </div>
+                <span class="text-xs sm:text-sm text-emerald-600/60">按时间升序</span>
+            </div>
+            
+            <div class="space-y-4" id="upcoming-events">
+                <!-- 活动1: 茶和植物饮料高质量发展研讨会 -->
+                <div class="event-card glass-card rounded-2xl shadow-sm border-industry overflow-hidden fade-in" data-type="industry" data-region="other">
+                    <div class="p-5 sm:p-6">
+                        <div class="flex flex-col sm:flex-row sm:items-start gap-4">
+                            <div class="flex-shrink-0">
+                                <div class="w-14 h-14 sm:w-16 sm:h-16 rounded-xl bg-gradient-to-br from-blue-400 to-blue-600 flex flex-col items-center justify-center text-white shadow-lg shadow-blue-200">
+                                    <span class="text-lg font-bold leading-none">19</span>
+                                    <span class="text-xs opacity-90 mt-0.5">8月</span>
+                                </div>
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <div class="flex flex-wrap items-center gap-2 mb-2">
+                                    <span class="tag-type-industry text-white text-xs font-medium px-2.5 py-1 rounded-lg">
+                                        行业大会
+                                    </span>
+                                </div>
+                                <h4 class="font-semibold text-emerald-900 mb-2 text-base sm:text-lg">
+                                    2026中国茶和植物饮料高质量发展研讨会
+                                </h4>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm text-emerald-700/70 mb-3">
+                                    <div class="flex items-center">
+                                        <svg class="w-4 h-4 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                                        </svg>
+                                        2026年8月19-21日
+                                    </div>
+                                    <div class="flex items-center">
+                                        <svg class="w-4 h-4 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                        </svg>
+                                        海口绿发希尔顿酒店
+                                    </div>
+                                </div>
+                                <div class="flex items-start text-sm text-emerald-700/70 mb-3">
+                                    <svg class="w-4 h-4 mr-2 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
+                                    </svg>
+                                    <span>主办：中国饮料工业协会</span>
+                                </div>
+                                <div class="bg-emerald-50/60 rounded-lg p-3 mb-3">
+                                    <p class="text-sm text-emerald-800 mb-2">
+                                        <span class="font-medium">主题/亮点：</span>聚力新质动能·全链提质升级；茶饮料专题+植物饮料专题双论坛；刘仲华院士、吴清平院士作报告；茶饮料创新趋势洞察、茶叶智能化加工、茶基药食同源天然产物饮料创新等议题
+                                    </p>
+                                    <p class="text-sm text-orange-700">
+                                        <span class="font-medium">推荐理由：</span>中国饮料工业协会主办的官方行业大会，茶和植物饮料是新茶饮上游重要领域，权威性高，适合关注原料创新和技术研发的从业者
+                                    </p>
+                                </div>
+                                <div class="flex items-center justify-between">
+                                    <span class="text-xs text-emerald-500/70">信息来源：食品伙伴网</span>
+                                    <a href="http://news.foodmate.net/2026/07/748158.html" target="_blank" class="text-sm text-blue-600 hover:text-blue-700 font-medium flex items-center">
+                                        查看来源
+                                        <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+                                        </svg>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 活动2: HOTELEX深圳展 -->
+                <div class="event-card glass-card rounded-2xl shadow-sm border-industry overflow-hidden fade-in" data-type="industry" data-region="other">
+                    <div class="p-5 sm:p-6">
+                        <div class="flex flex-col sm:flex-row sm:items-start gap-4">
+                            <div class="flex-shrink-0">
+                                <div class="w-14 h-14 sm:w-16 sm:h-16 rounded-xl bg-gradient-to-br from-blue-400 to-blue-600 flex flex-col items-center justify-center text-white shadow-lg shadow-blue-200">
+                                    <span class="text-lg font-bold leading-none">13</span>
+                                    <span class="text-xs opacity-90 mt-0.5">10月</span>
+                                </div>
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <div class="flex flex-wrap items-center gap-2 mb-2">
+                                    <span class="tag-type-industry text-white text-xs font-medium px-2.5 py-1 rounded-lg">
+                                        行业大会
+                                    </span>
+                                </div>
+                                <h4 class="font-semibold text-emerald-900 mb-2 text-base sm:text-lg">
+                                    2026 HOTELEX深圳展 · 全球风味茶论坛/潮饮创新者大会
+                                </h4>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm text-emerald-700/70 mb-3">
+                                    <div class="flex items-center">
+                                        <svg class="w-4 h-4 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                                        </svg>
+                                        2026年10月13-15日
+                                    </div>
+                                    <div class="flex items-center">
+                                        <svg class="w-4 h-4 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                        </svg>
+                                        深圳国际会展中心（宝安新馆）
+                                    </div>
+                                </div>
+                                <div class="flex items-start text-sm text-emerald-700/70 mb-3">
+                                    <svg class="w-4 h-4 mr-2 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
+                                    </svg>
+                                    <span>主办：上海博华国际展览有限公司</span>
+                                </div>
+                                <div class="bg-emerald-50/60 rounded-lg p-3 mb-3">
+                                    <p class="text-sm text-emerald-800 mb-2">
+                                        <span class="font-medium">主题/亮点：</span>全球风味茶论坛、潮饮创新者大会、食饮行业供应链创新大会、世界潮饮大赛中国区总决赛；20万㎡展览，2000+展商，15万+专业买家；打造"潮创首发"年轻化餐饮创新验证平台
+                                    </p>
+                                    <p class="text-sm text-orange-700">
+                                        <span class="font-medium">推荐理由：</span>华南地区规模最大的酒店餐饮博览会之一，潮饮创新者大会聚焦新茶饮趋势，适合关注华南市场和出海的从业者
+                                    </p>
+                                </div>
+                                <div class="flex items-center justify-between">
+                                    <span class="text-xs text-emerald-500/70">信息来源：餐饮界 / worldfoods.cn</span>
+                                    <a href="https://www.canyinj.com/news/24402.html" target="_blank" class="text-sm text-blue-600 hover:text-blue-700 font-medium flex items-center">
+                                        查看来源
+                                        <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+                                        </svg>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 活动3: 第115届全国糖酒会 -->
+                <div class="event-card glass-card rounded-2xl shadow-sm border-industry overflow-hidden fade-in" data-type="industry" data-region="yangtze">
+                    <div class="p-5 sm:p-6">
+                        <div class="flex flex-col sm:flex-row sm:items-start gap-4">
+                            <div class="flex-shrink-0">
+                                <div class="w-14 h-14 sm:w-16 sm:h-16 rounded-xl bg-gradient-to-br from-blue-400 to-blue-600 flex flex-col items-center justify-center text-white shadow-lg shadow-blue-200">
+                                    <span class="text-lg font-bold leading-none">15</span>
+                                    <span class="text-xs opacity-90 mt-0.5">10月</span>
+                                </div>
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <div class="flex flex-wrap items-center gap-2 mb-2">
+                                    <span class="tag-type-industry text-white text-xs font-medium px-2.5 py-1 rounded-lg">
+                                        行业大会
+                                    </span>
+                                    <span class="tag-yzrd text-white text-xs font-medium px-2.5 py-1 rounded-lg">
+                                        🌟 长三角·南京
+                                    </span>
+                                </div>
+                                <h4 class="font-semibold text-emerald-900 mb-2 text-base sm:text-lg">
+                                    第115届全国糖酒会（秋季）饮品及乳制品展区
+                                </h4>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm text-emerald-700/70 mb-3">
+                                    <div class="flex items-center">
+                                        <svg class="w-4 h-4 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                                        </svg>
+                                        2026年10月15-17日
+                                    </div>
+                                    <div class="flex items-center">
+                                        <svg class="w-4 h-4 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                        </svg>
+                                        南京国际博览中心（9号馆、11号馆）
+                                    </div>
+                                </div>
+                                <div class="flex items-start text-sm text-emerald-700/70 mb-3">
+                                    <svg class="w-4 h-4 mr-2 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
+                                    </svg>
+                                    <span>主办：中粮会展（全国糖酒会组委会）</span>
+                                </div>
+                                <div class="bg-emerald-50/60 rounded-lg p-3 mb-3">
+                                    <p class="text-sm text-emerald-800 mb-2">
+                                        <span class="font-medium">主题/亮点：</span>20万㎡展览，4000+企业，40万人次；涵盖现制与新式茶饮、即饮茶与瓶装饮品、植物基与乳制品；设茶饮行业论坛发布年度消费趋势报告；"新式茶饮创新案例"品牌专题推荐
+                                    </p>
+                                    <p class="text-sm text-orange-700">
+                                        <span class="font-medium">推荐理由：</span>中国食品饮料行业风向标与晴雨表，饮品展区规模庞大，是对接渠道、招商加盟的核心平台；南京地处长三角核心，三小时高铁圈覆盖沪杭苏等消费重镇
+                                    </p>
+                                </div>
+                                <div class="flex items-center justify-between">
+                                    <span class="text-xs text-emerald-500/70">信息来源：南京糖酒会官网</span>
+                                    <a href="http://www.cdtjhgw.com/h-nd-850.html" target="_blank" class="text-sm text-blue-600 hover:text-blue-700 font-medium flex items-center">
+                                        查看来源
+                                        <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+                                        </svg>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 活动4: 苏州秋季茶博会 -->
+                <div class="event-card glass-card rounded-2xl shadow-sm border-expo overflow-hidden fade-in" data-type="expo" data-region="yangtze">
+                    <div class="p-5 sm:p-6">
+                        <div class="flex flex-col sm:flex-row sm:items-start gap-4">
+                            <div class="flex-shrink-0">
+                                <div class="w-14 h-14 sm:w-16 sm:h-16 rounded-xl bg-gradient-to-br from-amber-500 to-amber-700 flex flex-col items-center justify-center text-white shadow-lg shadow-amber-200">
+                                    <span class="text-lg font-bold leading-none">15</span>
+                                    <span class="text-xs opacity-90 mt-0.5">10月</span>
+                                </div>
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <div class="flex flex-wrap items-center gap-2 mb-2">
+                                    <span class="tag-type-expo text-white text-xs font-medium px-2.5 py-1 rounded-lg">
+                                        茶博会
+                                    </span>
+                                    <span class="tag-yzrd text-white text-xs font-medium px-2.5 py-1 rounded-lg">
+                                        🌟 长三角·苏州
+                                    </span>
+                                    <span class="text-xs bg-amber-50 text-amber-600 px-2 py-0.5 rounded border border-amber-200">
+                                        ⚠️ 主办方待核实
+                                    </span>
+                                </div>
+                                <h4 class="font-semibold text-emerald-900 mb-2 text-base sm:text-lg">
+                                    第六届秋季苏州国际茶产业博览会（新茶饮创新大赛）
+                                </h4>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm text-emerald-700/70 mb-3">
+                                    <div class="flex items-center">
+                                        <svg class="w-4 h-4 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                                        </svg>
+                                        2026年10月15-18日
+                                    </div>
+                                    <div class="flex items-center">
+                                        <svg class="w-4 h-4 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                        </svg>
+                                        苏州狮山国际会议中心
+                                    </div>
+                                </div>
+                                <div class="flex items-start text-sm text-emerald-700/70 mb-3">
+                                    <svg class="w-4 h-4 mr-2 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
+                                    </svg>
+                                    <span>主办：主办方待核实（信息来源为展会代理网站）</span>
+                                </div>
+                                <div class="bg-emerald-50/60 rounded-lg p-3 mb-3">
+                                    <p class="text-sm text-emerald-800 mb-2">
+                                        <span class="font-medium">主题/亮点：</span>创新融合·绿色发展；1万㎡展区，200+展商；六大核心板块含"新式茶饮专区"（健康茶饮、冷萃技术、跨界联名）；同期举办新茶饮创新大赛、全球茶产业创新发展论坛、国际茶文化峰会
+                                    </p>
+                                    <p class="text-sm text-orange-700">
+                                        <span class="font-medium">推荐理由：</span>长三角地区重要茶产业展会，秋季场含新茶饮创新大赛，适合关注产品创新和华东市场的从业者
+                                    </p>
+                                </div>
+                                <div class="flex items-center justify-between">
+                                    <span class="text-xs text-emerald-500/70">信息来源：11467.com（权威性中等）</span>
+                                    <a href="https://m.11467.com/product/d53569399.htm" target="_blank" class="text-sm text-amber-700 hover:text-amber-800 font-medium flex items-center">
+                                        查看来源
+                                        <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+                                        </svg>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 活动5: 台州茶博会 -->
+                <div class="event-card glass-card rounded-2xl shadow-sm border-expo overflow-hidden fade-in" data-type="expo" data-region="yangtze">
+                    <div class="p-5 sm:p-6">
+                        <div class="flex flex-col sm:flex-row sm:items-start gap-4">
+                            <div class="flex-shrink-0">
+                                <div class="w-14 h-14 sm:w-16 sm:h-16 rounded-xl bg-gradient-to-br from-amber-500 to-amber-700 flex flex-col items-center justify-center text-white shadow-lg shadow-amber-200">
+                                    <span class="text-lg font-bold leading-none">5</span>
+                                    <span class="text-xs opacity-90 mt-0.5">11月</span>
+                                </div>
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <div class="flex flex-wrap items-center gap-2 mb-2">
+                                    <span class="tag-type-expo text-white text-xs font-medium px-2.5 py-1 rounded-lg">
+                                        茶博会
+                                    </span>
+                                    <span class="tag-yzrd text-white text-xs font-medium px-2.5 py-1 rounded-lg">
+                                        🌟 长三角·台州
+                                    </span>
+                                    <span class="text-xs bg-amber-50 text-amber-600 px-2 py-0.5 rounded border border-amber-200">
+                                        ⚠️ 主办方待核实
+                                    </span>
+                                </div>
+                                <h4 class="font-semibold text-emerald-900 mb-2 text-base sm:text-lg">
+                                    2026中国（台州）国际茶产业博览会
+                                </h4>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm text-emerald-700/70 mb-3">
+                                    <div class="flex items-center">
+                                        <svg class="w-4 h-4 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                                        </svg>
+                                        2026年11月5-8日
+                                    </div>
+                                    <div class="flex items-center">
+                                        <svg class="w-4 h-4 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                        </svg>
+                                        台州国际博览中心
+                                    </div>
+                                </div>
+                                <div class="flex items-start text-sm text-emerald-700/70 mb-3">
+                                    <svg class="w-4 h-4 mr-2 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
+                                    </svg>
+                                    <span>主办：主办方待核实（信息来源为展会代理网站）</span>
+                                </div>
+                                <div class="bg-emerald-50/60 rounded-lg p-3 mb-3">
+                                    <p class="text-sm text-emerald-800 mb-2">
+                                        <span class="font-medium">主题/亮点：</span>绿色、创新、融合、共赢；1万㎡展区，200+展商；设新茶饮供应链创新论坛、茶科技应用峰会、国际茶文化交流沙龙；发布《2026中国茶产业创新发展白皮书》
+                                    </p>
+                                    <p class="text-sm text-orange-700">
+                                        <span class="font-medium">推荐理由：</span>长三角地区茶产业年度盛会，含新茶饮供应链创新专题论坛，适合关注供应链创新的从业者
+                                    </p>
+                                </div>
+                                <div class="flex items-center justify-between">
+                                    <span class="text-xs text-emerald-500/70">信息来源：11467.com（权威性中等）</span>
+                                    <a href="https://m.11467.com/product/d53332256.htm" target="_blank" class="text-sm text-amber-700 hover:text-amber-800 font-medium flex items-center">
+                                        查看来源
+                                        <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+                                        </svg>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 活动6: 上海国际茶饮咖啡美食节 -->
+                <div class="event-card glass-card rounded-2xl shadow-sm border-industry overflow-hidden fade-in" data-type="industry" data-region="shanghai">
+                    <div class="p-5 sm:p-6">
+                        <div class="flex flex-col sm:flex-row sm:items-start gap-4">
+                            <div class="flex-shrink-0">
+                                <div class="w-14 h-14 sm:w-16 sm:h-16 rounded-xl bg-gradient-to-br from-blue-400 to-blue-600 flex flex-col items-center justify-center text-white shadow-lg shadow-blue-200">
+                                    <span class="text-lg font-bold leading-none">10</span>
+                                    <span class="text-xs opacity-90 mt-0.5">11月</span>
+                                </div>
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <div class="flex flex-wrap items-center gap-2 mb-2">
+                                    <span class="tag-type-industry text-white text-xs font-medium px-2.5 py-1 rounded-lg">
+                                        行业大会
+                                    </span>
+                                    <span class="tag-shanghai text-white text-xs font-medium px-2.5 py-1 rounded-lg">
+                                        🏙️ 上海
+                                    </span>
+                                    <span class="tag-yzrd text-white text-xs font-medium px-2.5 py-1 rounded-lg">
+                                        🌟 长三角
+                                    </span>
+                                </div>
+                                <h4 class="font-semibold text-emerald-900 mb-2 text-base sm:text-lg">
+                                    上海国际茶饮咖啡美食节（COFFEE FOODIE FESTIVAL）
+                                </h4>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm text-emerald-700/70 mb-3">
+                                    <div class="flex items-center">
+                                        <svg class="w-4 h-4 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                                        </svg>
+                                        2026年11月10-12日
+                                    </div>
+                                    <div class="flex items-center">
+                                        <svg class="w-4 h-4 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                        </svg>
+                                        上海新国际博览中心
+                                    </div>
+                                </div>
+                                <div class="flex items-start text-sm text-emerald-700/70 mb-3">
+                                    <svg class="w-4 h-4 mr-2 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
+                                    </svg>
+                                    <span>主办：HOTELEX组委会（上海博华国际展览有限公司）</span>
+                                </div>
+                                <div class="bg-emerald-50/60 rounded-lg p-3 mb-3">
+                                    <p class="text-sm text-emerald-800 mb-2">
+                                        <span class="font-medium">主题/亮点：</span>10万㎡展览面积，1600家展商；茶饮、咖啡、美食三大板块联动；面向年轻消费群体的潮流饮品体验盛会
+                                    </p>
+                                    <p class="text-sm text-orange-700">
+                                        <span class="font-medium">推荐理由：</span>上海年末重要茶饮咖啡行业展会，规模大、品牌多，适合关注华东市场和消费趋势的从业者
+                                    </p>
+                                </div>
+                                <div class="flex items-center justify-between">
+                                    <span class="text-xs text-emerald-500/70">信息来源：聚展网</span>
+                                    <a href="https://m.jufair.com/information/319467.html" target="_blank" class="text-sm text-blue-600 hover:text-blue-700 font-medium flex items-center">
+                                        查看来源
+                                        <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+                                        </svg>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 活动7: 杭州冬季茶博会 -->
+                <div class="event-card glass-card rounded-2xl shadow-sm border-expo overflow-hidden fade-in" data-type="expo" data-region="yangtze">
+                    <div class="p-5 sm:p-6">
+                        <div class="flex flex-col sm:flex-row sm:items-start gap-4">
+                            <div class="flex-shrink-0">
+                                <div class="w-14 h-14 sm:w-16 sm:h-16 rounded-xl bg-gradient-to-br from-amber-500 to-amber-700 flex flex-col items-center justify-center text-white shadow-lg shadow-amber-200">
+                                    <span class="text-lg font-bold leading-none">25</span>
+                                    <span class="text-xs opacity-90 mt-0.5">12月</span>
+                                </div>
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <div class="flex flex-wrap items-center gap-2 mb-2">
+                                    <span class="tag-type-expo text-white text-xs font-medium px-2.5 py-1 rounded-lg">
+                                        茶博会
+                                    </span>
+                                    <span class="tag-yzrd text-white text-xs font-medium px-2.5 py-1 rounded-lg">
+                                        🌟 长三角·杭州
+                                    </span>
+                                    <span class="text-xs bg-amber-50 text-amber-600 px-2 py-0.5 rounded border border-amber-200">
+                                        ⚠️ 主办方待核实
+                                    </span>
+                                </div>
+                                <h4 class="font-semibold text-emerald-900 mb-2 text-base sm:text-lg">
+                                    第七届杭州国际茶产业博览会（冬季）
+                                </h4>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm text-emerald-700/70 mb-3">
+                                    <div class="flex items-center">
+                                        <svg class="w-4 h-4 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                                        </svg>
+                                        2026年12月25-28日
+                                    </div>
+                                    <div class="flex items-center">
+                                        <svg class="w-4 h-4 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                        </svg>
+                                        杭州武林之星博览中心
+                                    </div>
+                                </div>
+                                <div class="flex items-start text-sm text-emerald-700/70 mb-3">
+                                    <svg class="w-4 h-4 mr-2 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
+                                    </svg>
+                                    <span>主办：主办方待核实（信息来源为展会代理网站）</span>
+                                </div>
+                                <div class="bg-emerald-50/60 rounded-lg p-3 mb-3">
+                                    <p class="text-sm text-emerald-800 mb-2">
+                                        <span class="font-medium">主题/亮点：</span>茶和天下·创享未来；1万㎡展区，200+展商；设新茶饮品牌创新研讨会、全球茶产业可持续发展峰会、茶科技与数字化转型论坛；宋韵茶事展演、国际茶艺大赛
+                                    </p>
+                                    <p class="text-sm text-orange-700">
+                                        <span class="font-medium">推荐理由：</span>杭州年末重要茶产业展会，含新茶饮品牌创新研讨会，适合关注年末行业总结与来年趋势的从业者
+                                    </p>
+                                </div>
+                                <div class="flex items-center justify-between">
+                                    <span class="text-xs text-emerald-500/70">信息来源：11467.com（权威性中等）</span>
+                                    <a href="https://m.11467.com/product/d53176200.htm" target="_blank" class="text-sm text-amber-700 hover:text-amber-800 font-medium flex items-center">
+                                        查看来源
+                                        <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+                                        </svg>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="hidden text-center py-8" id="upcoming-empty">
+                <p class="text-emerald-600/60 text-sm">暂无符合条件的即将举办活动</p>
+            </div>
+        </section>
+
+        <!-- 已举办区域 -->
+        <section class="mb-10" id="past-section">
+            <div class="flex items-center justify-between mb-4 sm:mb-5">
+                <div class="flex items-center space-x-2">
+                    <div class="w-1 h-5 sm:h-6 bg-gradient-to-b from-emerald-500 to-emerald-300 rounded-full"></div>
+                    <h3 class="text-lg sm:text-xl font-bold text-emerald-900">已举办</h3>
+                    <span class="px-2.5 py-0.5 text-xs font-semibold bg-emerald-100 text-emerald-700 rounded-full" id="past-count">15场</span>
+                </div>
+                <div class="flex items-center space-x-2">
+                    <button id="expand-all" class="text-xs sm:text-sm text-emerald-600 hover:text-emerald-700 font-medium flex items-center">
+                        <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"></path>
+                        </svg>
+                        全部展开
+                    </button>
+                    <span class="text-xs sm:text-sm text-emerald-600/60">按时间倒序</span>
+                </div>
+            </div>
+            
+            <div class="space-y-3" id="past-events">
+                <!-- 已举办1: 2026中国新茶饮行业发展大会 -->
+                <div class="event-card glass-card rounded-xl shadow-sm border-industry overflow-hidden fade-in" data-type="industry" data-region="other">
+                    <div class="p-4 cursor-pointer past-header" onclick="togglePast(this)">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center space-x-3 flex-1 min-w-0">
+                                <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-blue-400 to-blue-600 flex flex-col items-center justify-center text-white flex-shrink-0">
+                                    <span class="text-sm font-bold leading-none">17</span>
+                                    <span class="text-xs opacity-90">7月</span>
+                                </div>
+                                <div class="min-w-0 flex-1">
+                                    <div class="flex flex-wrap items-center gap-1.5 mb-1">
+                                        <span class="text-xs bg-blue-100 text-blue-700 px-2 py-0.5 rounded font-medium">行业大会</span>
+                                    </div>
+                                    <h4 class="font-medium text-emerald-900 text-sm sm:text-base truncate">2026年中国新茶饮行业发展大会</h4>
+                                </div>
+                            </div>
+                            <div class="flex items-center space-x-3 ml-3">
+                                <span class="hidden sm:inline text-xs text-emerald-600/60">广东潮州</span>
+                                <svg class="chevron w-5 h-5 text-emerald-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="collapse-content px-4 pb-4">
+                        <div class="pt-3 border-t border-emerald-100">
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm text-emerald-700/70 mb-3">
+                                <div class="flex items-center">
+                                    <svg class="w-4 h-4 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                                    </svg>
+                                    2026年7月17-19日
+                                </div>
+                                <div class="flex items-center">
+                                    <svg class="w-4 h-4 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                    </svg>
+                                    广东省潮州市饶平县
+                                </div>
+                            </div>
+                            <div class="flex items-start text-sm text-emerald-700/70 mb-3">
+                                <svg class="w-4 h-4 mr-2 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
+                                </svg>
+                                <span>主办：中国茶叶流通协会</span>
+                            </div>
+                            <div class="bg-emerald-50/60 rounded-lg p-3 mb-3">
+                                <p class="text-sm text-emerald-800 mb-2">
+                                    <span class="font-medium">主题/亮点：</span>茶饮新风 潮起饶平；全国首次全行业层面新茶饮专项大会；近100家头部品牌及产业链企业参会；发布《2026中国新茶饮行业发展报告》（市场规模近4000亿元）；霸王茶姬、奈雪、喜茶、茶颜悦色、茶百道等头部品牌悉数在列；"1+6"特色活动体系
+                                </p>
+                                <p class="text-sm text-orange-700">
+                                    <span class="font-medium">推荐理由：</span>中国茶叶流通协会主办的国家级新茶饮专项大会，权威度最高、阵容最强，是2026年最重要的新茶饮行业大会
+                                </p>
+                            </div>
+                            <div class="flex justify-end">
+                                <a href="https://www.ctma.com.cn/xiehuidongtai/84565.html" target="_blank" class="text-sm text-blue-600 hover:text-blue-700 font-medium flex items-center">
+                                    查看来源
+                                    <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+                                    </svg>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 已举办2: 霸王茶姬小店模式发布 -->
+                <div class="event-card glass-card rounded-xl shadow-sm border-brand overflow-hidden fade-in" data-type="brand" data-region="yangtze">
+                    <div class="p-4 cursor-pointer past-header" onclick="togglePast(this)">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center space-x-3 flex-1 min-w-0">
+                                <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-orange-400 to-orange-600 flex flex-col items-center justify-center text-white flex-shrink-0">
+                                    <span class="text-sm font-bold leading-none">7月</span>
+                                    <span class="text-xs opacity-90">首店</span>
+                                </div>
+                                <div class="min-w-0 flex-1">
+                                    <div class="flex flex-wrap items-center gap-1.5 mb-1">
+                                        <span class="text-xs bg-orange-100 text-orange-700 px-2 py-0.5 rounded font-medium">品牌活动</span>
+                                        <span class="text-xs bg-purple-100 text-purple-700 px-2 py-0.5 rounded font-medium">🌟 长三角·杭州</span>
+                                    </div>
+                                    <h4 class="font-medium text-emerald-900 text-sm sm:text-base truncate">霸王茶姬50㎡臻选小店模式全国首发</h4>
+                                </div>
+                            </div>
+                            <div class="flex items-center space-x-3 ml-3">
+                                <span class="hidden sm:inline text-xs text-emerald-600/60">杭州来福士</span>
+                                <svg class="chevron w-5 h-5 text-emerald-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="collapse-content px-4 pb-4">
+                        <div class="pt-3 border-t border-emerald-100">
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm text-emerald-700/70 mb-3">
+                                <div class="flex items-center">
+                                    <svg class="w-4 h-4 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                                    </svg>
+                                    2026年7月（首店落地）
+                                </div>
+                                <div class="flex items-center">
+                                    <svg class="w-4 h-4 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                    </svg>
+                                    杭州来福士「🌟 长三角」
+                                </div>
+                            </div>
+                            <div class="flex items-start text-sm text-emerald-700/70 mb-3">
+                                <svg class="w-4 h-4 mr-2 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
+                                </svg>
+                                <span>主办：霸王茶姬</span>
+                            </div>
+                            <div class="bg-emerald-50/60 rounded-lg p-3 mb-3">
+                                <p class="text-sm text-emerald-800 mb-2">
+                                    <span class="font-medium">主题/亮点：</span>打破大店国风第三空间传统形象；租金降幅超40%，装修成本减少一半，施工周期缩短30%；一二线城市前期投入仅35-45万元（无房租），月度固定运营成本降至3.3-4.45万元；配合GMV流水分成体系
+                                </p>
+                                <p class="text-sm text-orange-700">
+                                    <span class="font-medium">推荐理由：</span>霸王茶姬重大战略转型动作，小店模式+GMV分成代表连锁加盟行业新趋势，对行业加盟模式和单店模型有标杆意义
+                                </p>
+                            </div>
+                            <div class="flex justify-end">
+                                <a href="http://m.toutiao.com/group/7661098162702025252/" target="_blank" class="text-sm text-orange-600 hover:text-orange-700 font-medium flex items-center">
+                                    查看来源
+                                    <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+                                    </svg>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 已举办3: 喜茶工艺店发布 -->
+                <div class="event-card glass-card rounded-xl shadow-sm border-brand overflow-hidden fade-in" data-type="brand" data-region="other">
+                    <div class="p-4 cursor-pointer past-header" onclick="togglePast(this)">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center space-x-3 flex-1 min-w-0">
+                                <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-orange-400 to-orange-600 flex flex-col items-center justify-center text-white flex-shrink-0">
+                                    <span class="text-sm font-bold leading-none">8</span>
+                                    <span class="text-xs opacity-90">7月</span>
+                                </div>
+                                <div class="min-w-0 flex-1">
+                                    <div class="flex flex-wrap items-center gap-1.5 mb-1">
+                                        <span class="text-xs bg-orange-100 text-orange-700 px-2 py-0.5 rounded font-medium">品牌活动</span>
+                                    </div>
+                                    <h4 class="font-medium text-emerald-900 text-sm sm:text-base truncate">喜茶「喜茶 工艺」全国首店发布会</h4>
+                                </div>
+                            </div>
+                            <div class="flex items-center space-x-3 ml-3">
+                                <span class="hidden sm:inline text-xs text-emerald-600/60">广州石牌桥</span>
+                                <svg class="chevron w-5 h-5 text-emerald-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="collapse-content px-4 pb-4">
+                        <div class="pt-3 border-t border-emerald-100">
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm text-emerald-700/70 mb-3">
+                                <div class="flex items-center">
+                                    <svg class="w-4 h-4 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                                    </svg>
+                                    2026年7月8日
+                                </div>
+                                <div class="flex items-center">
+                                    <svg class="w-4 h-4 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                    </svg>
+                                    广州石牌桥
+                                </div>
+                            </div>
+                            <div class="flex items-start text-sm text-emerald-700/70 mb-3">
+                                <svg class="w-4 h-4 mr-2 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
+                                </svg>
+                                <span>主办：喜茶</span>
+                            </div>
+                            <div class="bg-emerald-50/60 rounded-lg p-3 mb-3">
+                                <p class="text-sm text-emerald-800 mb-2">
+                                    <span class="font-medium">主题/亮点：</span>打破行业产品研发惯性，从产品视角回归茶的工艺起点；7款定制茶底，五大系列25款新品（锅煲乳茶、工艺黑巧特调、铜网手冲茗茶、工艺茶特调、工艺gelato）；铜锅锅煲、铜网手冲、智能萃取等工艺演进同台呈现
+                                </p>
+                                <p class="text-sm text-orange-700">
+                                    <span class="font-medium">推荐理由：</span>喜茶年度重要战略店型发布，代表新茶饮产品创新从"风味卷"转向"工艺卷"的新方向，具有行业风向标意义
+                                </p>
+                            </div>
+                            <div class="flex justify-end">
+                                <a href="https://m.sohu.com/a/1052741888_120429984/" target="_blank" class="text-sm text-orange-600 hover:text-orange-700 font-medium flex items-center">
+                                    查看来源
+                                    <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+                                    </svg>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 已举办4: 咖门超级产品大会 -->
+                <div class="event-card glass-card rounded-xl shadow-sm border-innovation overflow-hidden fade-in" data-type="innovation" data-region="other">
+                    <div class="p-4 cursor-pointer past-header" onclick="togglePast(this)">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center space-x-3 flex-1 min-w-0">
+                                <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-emerald-400 to-emerald-600 flex flex-col items-center justify-center text-white flex-shrink-0">
+                                    <span class="text-sm font-bold leading-none">7</span>
+                                    <span class="text-xs opacity-90">7月</span>
+                                </div>
+                                <div class="min-w-0 flex-1">
+                                    <div class="flex flex-wrap items-center gap-1.5 mb-1">
+                                        <span class="text-xs bg-emerald-100 text-emerald-700 px-2 py-0.5 rounded font-medium">产品创新</span>
+                                    </div>
+                                    <h4 class="font-medium text-emerald-900 text-sm sm:text-base truncate">咖门2026超级美好产品大会</h4>
+                                </div>
+                            </div>
+                            <div class="flex items-center space-x-3 ml-3">
+                                <span class="hidden sm:inline text-xs text-emerald-600/60">深圳</span>
+                                <svg class="chevron w-5 h-5 text-emerald-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="collapse-content px-4 pb-4">
+                        <div class="pt-3 border-t border-emerald-100">
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm text-emerald-700/70 mb-3">
+                                <div class="flex items-center">
+                                    <svg class="w-4 h-4 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                                    </svg>
+                                    2026年7月7日
+                                </div>
+                                <div class="flex items-center">
+                                    <svg class="w-4 h-4 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                    </svg>
+                                    深圳
+                                </div>
+                            </div>
+                            <div class="flex items-start text-sm text-emerald-700/70 mb-3">
+                                <svg class="w-4 h-4 mr-2 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
+                                </svg>
+                                <span>主办：咖门 | 联合发起：美团外卖</span>
+                            </div>
+                            <div class="bg-emerald-50/60 rounded-lg p-3 mb-3">
+                                <p class="text-sm text-emerald-800 mb-2">
+                                    <span class="font-medium">主题/亮点：</span>沪上阿姨、奈雪、益禾堂、书亦烧仙草、茶颜悦色等200+品牌齐聚；10+场主题分享、2场圆桌对话；发布产品趋势：茶饮上新进入成熟期（上半年41个品牌平均上新22.5款），酸爽回甘成旺季味型，健康从减法转向加法，茶咖融合加深；颁发"超级产品榜"三大奖项
+                                </p>
+                                <p class="text-sm text-orange-700">
+                                    <span class="font-medium">推荐理由：</span>咖门主办的产品创新专业大会，聚焦产品趋势与爆品方法论，是年中最重要的产品创新领域活动
+                                </p>
+                            </div>
+                            <div class="flex justify-end">
+                                <a href="https://cj.sina.cn/articles/view/7414653327/1b9f2a18f00101s24q" target="_blank" class="text-sm text-emerald-600 hover:text-emerald-700 font-medium flex items-center">
+                                    查看来源
+                                    <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+                                    </svg>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 已举办5: 奈雪股东会 -->
+                <div class="event-card glass-card rounded-xl shadow-sm border-brand overflow-hidden fade-in" data-type="brand" data-region="other">
+                    <div class="p-4 cursor-pointer past-header" onclick="togglePast(this)">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center space-x-3 flex-1 min-w-0">
+                                <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-orange-400 to-orange-600 flex flex-col items-center justify-center text-white flex-shrink-0">
+                                    <span class="text-sm font-bold leading-none">24</span>
+                                    <span class="text-xs opacity-90">6月</span>
+                                </div>
+                                <div class="min-w-0 flex-1">
+                                    <div class="flex flex-wrap items-center gap-1.5 mb-1">
+                                        <span class="text-xs bg-orange-100 text-orange-700 px-2 py-0.5 rounded font-medium">品牌活动</span>
+                                    </div>
+                                    <h4 class="font-medium text-emerald-900 text-sm sm:text-base truncate">奈雪的茶2026年股东周年大会</h4>
+                                </div>
+                            </div>
+                            <div class="flex items-center space-x-3 ml-3">
+                                <span class="hidden sm:inline text-xs text-emerald-600/60">深圳</span>
+                                <svg class="chevron w-5 h-5 text-emerald-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="collapse-content px-4 pb-4">
+                        <div class="pt-3 border-t border-emerald-100">
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm text-emerald-700/70 mb-3">
+                                <div class="flex items-center">
+                                    <svg class="w-4 h-4 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                                    </svg>
+                                    2026年6月24日
+                                </div>
+                                <div class="flex items-center">
+                                    <svg class="w-4 h-4 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                    </svg>
+                                    深圳前海奈雪总部
+                                </div>
+                            </div>
+                            <div class="flex items-start text-sm text-emerald-700/70 mb-3">
+                                <svg class="w-4 h-4 mr-2 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
+                                </svg>
+                                <span>主办：奈雪的茶控股有限公司</span>
+                            </div>
+                            <div class="bg-emerald-50/60 rounded-lg p-3 mb-3">
+                                <p class="text-sm text-emerald-800 mb-2">
+                                    <span class="font-medium">主题/亮点：</span>年内完成全部大店改小店；预计2026年国内业务有望盈利；美国已有8家加盟门店，月均营业额30万美元，计划年内再开2家直营店；2026年预计开店300家，直营加盟各一半；放开加盟扩大门店规模
+                                </p>
+                                <p class="text-sm text-orange-700">
+                                    <span class="font-medium">推荐理由：</span>新茶饮上市品牌年度最重要会议，释放加盟扩张、海外战略、店型调整等关键信号，是观察行业头部品牌战略走向的重要窗口
+                                </p>
+                            </div>
+                            <div class="flex justify-end">
+                                <a href="https://wap.stockstar.com/detail/AN2026062400042564" target="_blank" class="text-sm text-orange-600 hover:text-orange-700 font-medium flex items-center">
+                                    查看来源
+                                    <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+                                    </svg>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 已举办6: 蜜雪咖啡上线 -->
+                <div class="event-card glass-card rounded-xl shadow-sm border-brand overflow-hidden fade-in" data-type="brand" data-region="other">
+                    <div class="p-4 cursor-pointer past-header" onclick="togglePast(this)">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center space-x-3 flex-1 min-w-0">
+                                <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-orange-400 to-orange-600 flex flex-col items-center justify-center text-white flex-shrink-0">
+                                    <span class="text-sm font-bold leading-none">15</span>
+                                    <span class="text-xs opacity-90">6月</span>
+                                </div>
+                                <div class="min-w-0 flex-1">
+                                    <div class="flex flex-wrap items-center gap-1.5 mb-1">
+                                        <span class="text-xs bg-orange-100 text-orange-700 px-2 py-0.5 rounded font-medium">品牌活动</span>
+                                    </div>
+                                    <h4 class="font-medium text-emerald-900 text-sm sm:text-base truncate">蜜雪冰城现磨咖啡全国上线发布会</h4>
+                                </div>
+                            </div>
+                            <div class="flex items-center space-x-3 ml-3">
+                                <span class="hidden sm:inline text-xs text-emerald-600/60">全国（郑州试点）</span>
+                                <svg class="chevron w-5 h-5 text-emerald-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="collapse-content px-4 pb-4">
+                        <div class="pt-3 border-t border-emerald-100">
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm text-emerald-700/70 mb-3">
+                                <div class="flex items-center">
+                                    <svg class="w-4 h-4 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                                    </svg>
+                                    2026年6月15日
+                                </div>
+                                <div class="flex items-center">
+                                    <svg class="w-4 h-4 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                    </svg>
+                                    全国（郑州试点后推广）
+                                </div>
+                            </div>
+                            <div class="flex items-start text-sm text-emerald-700/70 mb-3">
+                                <svg class="w-4 h-4 mr-2 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
+                                </svg>
+                                <span>主办：蜜雪冰城</span>
+                            </div>
+                            <div class="bg-emerald-50/60 rounded-lg p-3 mb-3">
+                                <p class="text-sm text-emerald-800 mb-2">
+                                    <span class="font-medium">主题/亮点：</span>推出10亿元专项资金补贴加盟商引入全自动咖啡机；咖啡豆升级为30天短保鲜烘豆，牛奶升级为冷链鲜牛奶；经典美式5元、生椰拿铁10元、鲜奶拿铁12元；同步发放1万张2元咖啡无门槛券
+                                </p>
+                                <p class="text-sm text-orange-700">
+                                    <span class="font-medium">推荐理由：</span>蜜雪冰城重大品类升级动作，标志着平价现磨咖啡赛道竞争加剧，对新茶饮行业品类边界和竞争格局有深远影响
+                                </p>
+                            </div>
+                            <div class="flex justify-end">
+                                <a href="https://m.sohu.com/a/1036865748_103830/" target="_blank" class="text-sm text-orange-600 hover:text-orange-700 font-medium flex items-center">
+                                    查看来源
+                                    <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+                                    </svg>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 已举办7: 苏州春季茶博会 -->
+                <div class="event-card glass-card rounded-xl shadow-sm border-expo overflow-hidden fade-in" data-type="expo" data-region="yangtze">
+                    <div class="p-4 cursor-pointer past-header" onclick="togglePast(this)">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center space-x-3 flex-1 min-w-0">
+                                <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-amber-500 to-amber-700 flex flex-col items-center justify-center text-white flex-shrink-0">
+                                    <span class="text-sm font-bold leading-none">12</span>
+                                    <span class="text-xs opacity-90">6月</span>
+                                </div>
+                                <div class="min-w-0 flex-1">
+                                    <div class="flex flex-wrap items-center gap-1.5 mb-1">
+                                        <span class="text-xs bg-amber-100 text-amber-700 px-2 py-0.5 rounded font-medium">茶博会</span>
+                                        <span class="text-xs bg-purple-100 text-purple-700 px-2 py-0.5 rounded font-medium">🌟 长三角·苏州</span>
+                                    </div>
+                                    <h4 class="font-medium text-emerald-900 text-sm sm:text-base truncate">第五届苏州国际茶产业博览会（春季）</h4>
+                                </div>
+                            </div>
+                            <div class="flex items-center space-x-3 ml-3">
+                                <span class="hidden sm:inline text-xs text-emerald-600/60">苏州狮山</span>
+                                <svg class="chevron w-5 h-5 text-emerald-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="collapse-content px-4 pb-4">
+                        <div class="pt-3 border-t border-emerald-100">
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm text-emerald-700/70 mb-3">
+                                <div class="flex items-center">
+                                    <svg class="w-4 h-4 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                                    </svg>
+                                    2026年6月12-15日
+                                </div>
+                                <div class="flex items-center">
+                                    <svg class="w-4 h-4 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                    </svg>
+                                    苏州狮山国际会议中心
+                                </div>
+                            </div>
+                            <div class="flex items-start text-sm text-emerald-700/70 mb-3">
+                                <svg class="w-4 h-4 mr-2 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
+                                </svg>
+                                <span>主办：苏州国际茶业博览会组委会 | 承办：苏州华艺时代展览有限公司</span>
+                            </div>
+                            <div class="bg-emerald-50/60 rounded-lg p-3 mb-3">
+                                <p class="text-sm text-emerald-800 mb-2">
+                                    <span class="font-medium">主题/亮点：</span>创新驱动·茶韵全球；1万㎡展区，200+展商，2万+观众；设"新式茶饮区"（现制茶饮、茶食品、茶衍生品）；同期举办全球茶产业创新发展论坛、茶与健康国际研讨会、跨境电商选品会
+                                </p>
+                                <p class="text-sm text-orange-700">
+                                    <span class="font-medium">推荐理由：</span>长三角地区重要茶产业展会，含新茶饮专区和创新发展论坛，苏州本地代表性茶博会
+                                </p>
+                            </div>
+                            <div class="flex justify-end">
+                                <a href="https://shanghai01260086.11467.com/m/news/15773735.asp" target="_blank" class="text-sm text-amber-700 hover:text-amber-800 font-medium flex items-center">
+                                    查看来源
+                                    <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+                                    </svg>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 已举办8: 抹茶大会 -->
+                <div class="event-card glass-card rounded-xl shadow-sm border-innovation overflow-hidden fade-in" data-type="innovation" data-region="other">
+                    <div class="p-4 cursor-pointer past-header" onclick="togglePast(this)">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center space-x-3 flex-1 min-w-0">
+                                <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-emerald-400 to-emerald-600 flex flex-col items-center justify-center text-white flex-shrink-0">
+                                    <span class="text-sm font-bold leading-none">31</span>
+                                    <span class="text-xs opacity-90">5月</span>
+                                </div>
+                                <div class="min-w-0 flex-1">
+                                    <div class="flex flex-wrap items-center gap-1.5 mb-1">
+                                        <span class="text-xs bg-emerald-100 text-emerald-700 px-2 py-0.5 rounded font-medium">产品创新</span>
+                                    </div>
+                                    <h4 class="font-medium text-emerald-900 text-sm sm:text-base truncate">2026抹茶大会</h4>
+                                </div>
+                            </div>
+                            <div class="flex items-center space-x-3 ml-3">
+                                <span class="hidden sm:inline text-xs text-emerald-600/60">贵州铜仁</span>
+                                <svg class="chevron w-5 h-5 text-emerald-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="collapse-content px-4 pb-4">
+                        <div class="pt-3 border-t border-emerald-100">
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm text-emerald-700/70 mb-3">
+                                <div class="flex items-center">
+                                    <svg class="w-4 h-4 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                                    </svg>
+                                    2026年5月31日-6月1日
+                                </div>
+                                <div class="flex items-center">
+                                    <svg class="w-4 h-4 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                    </svg>
+                                    贵州省铜仁市江口县
+                                </div>
+                            </div>
+                            <div class="flex items-start text-sm text-emerald-700/70 mb-3">
+                                <svg class="w-4 h-4 mr-2 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
+                                </svg>
+                                <span>主办：当地政府/行业机构</span>
+                            </div>
+                            <div class="bg-emerald-50/60 rounded-lg p-3 mb-3">
+                                <p class="text-sm text-emerald-800 mb-2">
+                                    <span class="font-medium">主题/亮点：</span>一抹相承，聚势拓新；梵净抹茶，香溢天下；发布《2026中国抹茶产业发展报告》；2025年中国抹茶产量突破1.2万吨，占全球60%以上；贵州铜仁为抹茶产销量最高核心产区
+                                </p>
+                                <p class="text-sm text-orange-700">
+                                    <span class="font-medium">推荐理由：</span>抹茶领域专业产业大会，抹茶是新茶饮重要原料品类，适合关注上游原料供应链的从业者
+                                </p>
+                            </div>
+                            <div class="flex justify-end">
+                                <a href="http://www.xinhuanet.com/food/20260612/82729f4f69c041da8ffc549af7af7d92/c.html" target="_blank" class="text-sm text-emerald-600 hover:text-emerald-700 font-medium flex items-center">
+                                    查看来源
+                                    <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+                                    </svg>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 已举办9: 中国特许加盟展 -->
+                <div class="event-card glass-card rounded-xl shadow-sm border-industry overflow-hidden fade-in" data-type="industry" data-region="other">
+                    <div class="p-4 cursor-pointer past-header" onclick="togglePast(this)">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center space-x-3 flex-1 min-w-0">
+                                <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-blue-400 to-blue-600 flex flex-col items-center justify-center text-white flex-shrink-0">
+                                    <span class="text-sm font-bold leading-none">29</span>
+                                    <span class="text-xs opacity-90">5月</span>
+                                </div>
+                                <div class="min-w-0 flex-1">
+                                    <div class="flex flex-wrap items-center gap-1.5 mb-1">
+                                        <span class="text-xs bg-blue-100 text-blue-700 px-2 py-0.5 rounded font-medium">行业大会</span>
+                                    </div>
+                                    <h4 class="font-medium text-emerald-900 text-sm sm:text-base truncate">第66届中国特许加盟展（茶咖品牌加盟专场）</h4>
+                                </div>
+                            </div>
+                            <div class="flex items-center space-x-3 ml-3">
+                                <span class="hidden sm:inline text-xs text-emerald-600/60">北京</span>
+                                <svg class="chevron w-5 h-5 text-emerald-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="collapse-content px-4 pb-4">
+                        <div class="pt-3 border-t border-emerald-100">
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm text-emerald-700/70 mb-3">
+                                <div class="flex items-center">
+                                    <svg class="w-4 h-4 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                                    </svg>
+                                    2026年5月29-31日
+                                </div>
+                                <div class="flex items-center">
+                                    <svg class="w-4 h-4 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                    </svg>
+                                    北京国家会议中心
+                                </div>
+                            </div>
+                            <div class="flex items-start text-sm text-emerald-700/70 mb-3">
+                                <svg class="w-4 h-4 mr-2 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
+                                </svg>
+                                <span>主办：中国连锁经营协会（CCFA）</span>
+                            </div>
+                            <div class="bg-emerald-50/60 rounded-lg p-3 mb-3">
+                                <p class="text-sm text-emerald-800 mb-2">
+                                    <span class="font-medium">主题/亮点：</span>同期举办2026 CCFA特许加盟大会及2026世界特许经营联合会（WFC）年会；霸王茶姬、茶百道、挪瓦咖啡等头部茶咖品牌齐聚；首次齐聚东北700CC、新疆茶芭蕾、西北放哈、浙江麦记牛奶等区域黑马品牌；直击特许总部平台化、加盟新势力、门店运营智能化等五大趋势
+                                </p>
+                                <p class="text-sm text-orange-700">
+                                    <span class="font-medium">推荐理由：</span>茶咖加盟领域最高规格展会之一，头部品牌+区域黑马齐聚，适合关注加盟投资和区域品牌的从业者
+                                </p>
+                            </div>
+                            <div class="flex justify-end">
+                                <a href="https://www.163.com/dy/article/KTI9A26705528XQA.html" target="_blank" class="text-sm text-blue-600 hover:text-blue-700 font-medium flex items-center">
+                                    查看来源
+                                    <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+                                    </svg>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 已举办10: 中国国际茶叶博览会 -->
+                <div class="event-card glass-card rounded-xl shadow-sm border-expo overflow-hidden fade-in" data-type="expo" data-region="yangtze">
+                    <div class="p-4 cursor-pointer past-header" onclick="togglePast(this)">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center space-x-3 flex-1 min-w-0">
+                                <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-amber-500 to-amber-700 flex flex-col items-center justify-center text-white flex-shrink-0">
+                                    <span class="text-sm font-bold leading-none">21</span>
+                                    <span class="text-xs opacity-90">5月</span>
+                                </div>
+                                <div class="min-w-0 flex-1">
+                                    <div class="flex flex-wrap items-center gap-1.5 mb-1">
+                                        <span class="text-xs bg-amber-100 text-amber-700 px-2 py-0.5 rounded font-medium">茶博会</span>
+                                        <span class="text-xs bg-purple-100 text-purple-700 px-2 py-0.5 rounded font-medium">🌟 长三角·杭州</span>
+                                    </div>
+                                    <h4 class="font-medium text-emerald-900 text-sm sm:text-base truncate">第八届中国国际茶叶博览会（含新茶饮板块）</h4>
+                                </div>
+                            </div>
+                            <div class="flex items-center space-x-3 ml-3">
+                                <span class="hidden sm:inline text-xs text-emerald-600/60">杭州龙坞</span>
+                                <svg class="chevron w-5 h-5 text-emerald-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="collapse-content px-4 pb-4">
+                        <div class="pt-3 border-t border-emerald-100">
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm text-emerald-700/70 mb-3">
+                                <div class="flex items-center">
+                                    <svg class="w-4 h-4 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                                    </svg>
+                                    2026年5月21-25日
+                                </div>
+                                <div class="flex items-center">
+                                    <svg class="w-4 h-4 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                    </svg>
+                                    杭州龙坞茶镇分会场
+                                </div>
+                            </div>
+                            <div class="flex items-start text-sm text-emerald-700/70 mb-3">
+                                <svg class="w-4 h-4 mr-2 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
+                                </svg>
+                                <span>主办：中国国际茶文化研究会 | 承办：杭州华巨臣西博文化创意有限公司、杭州西湖文化旅游投资集团</span>
+                            </div>
+                            <div class="bg-emerald-50/60 rounded-lg p-3 mb-3">
+                                <p class="text-sm text-emerald-800 mb-2">
+                                    <span class="font-medium">主题/亮点：</span>茶和世界，共享发展；首次在龙坞茶镇设分会场，定位"茶创新窗口"；茶科技馆打造新茶饮青年"创意实验室"（气泡茶、冷萃茶、花果创意特调）；新茶食展区（茶香巧克力、抹茶甜品、茶风味糕点）；举办2026中国调茶师技能大赛浙江赛
+                                </p>
+                                <p class="text-sm text-orange-700">
+                                    <span class="font-medium">推荐理由：</span>国家级茶叶博览会，新茶饮板块规模升级，杭州地区重要茶产业盛会，权威性最高
+                                </p>
+                            </div>
+                            <div class="flex justify-end">
+                                <a href="http://www.hzxcw.gov.cn/content_47860.html" target="_blank" class="text-sm text-amber-700 hover:text-amber-800 font-medium flex items-center">
+                                    查看来源
+                                    <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+                                    </svg>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- 已举办11: 调茶师大会 -->
+                <div class="event-card glass-card rounded-xl shadow-sm border-innovation overflow-hidden fade-in" data-type="innovation" data-region="yangtze">
+                    <div class="p-4 cursor-pointer past-header" onclick="togglePast(this)">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center space-x-3 flex-1 min-w-0">
+                                <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-emerald-400 to-emerald-600 flex flex-col items-center justify-center text-white flex-shrink-0">
+                                    <span class="text-sm font-bold leading-none">20</span>
+                                    <span class="text-xs opacity-90">4月</span>
+                                </div>
+                                <div class="min-w-0 flex-1">
+                                    <div class="flex flex-wrap items-center gap-1.5 mb-1">
+                                        <span class="text-xs bg-emerald-100 text-emerald-700 px-2 py-0.5 rounded font-medium">产品创新</span>
+                                        <span class="text-xs bg-purple-100 text-purple-700 px-2 py-0.5 rounded font-medium">🌟 长三角·杭州</span>
+                                    </div>
+                                    <h4 class="font-medium text-emerald-900 text-sm sm:text-base truncate">"做自己"2026调茶师大会暨茶饮产业创投峰会</h4>
+                                </div>
+                            </div>
+                            <div class="flex items-center space-x-3 ml-3">
+                                <span class="hidden sm:inline text-xs text-emerald-600/60">杭州</span>
+                                <svg class="chevron w-5 h-5 text-emerald-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="collapse-content px-4 pb-4">
+                        <div class="pt-3 border-t border-emerald-100">
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm text-emerald-700/70 mb-3">
+                                <div class="flex items-center">
+                                    <svg class="w-4 h-4 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                                    </svg>
+                                    2026年4月20日
+                                </div>
+                                <div class="flex items-center">
+                                    <svg class="w-4 h-4 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                    </svg>
+                                    杭州「🌟 长三角」
+                                </div>
+                            </div>
+                            <div class="flex items-start text-sm text-emerald-700/70 mb-3">
+                                <svg class="w-4 h-4 mr-2 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
+                                </svg>
+                                <span>主办：调茶师研究院</span>
+                            </div>
+                            <div class="bg-emerald-50/60 rounded-lg p-3 mb-3">
+                                <p class="text-sm text-emerald-800 mb-2">
+                                    <span class="font-medium">主题/亮点：</span>主题"做自己"；汇聚20+投资机构与200+优质茶饮品牌；从专业维度洞察行业发展方向
+                                </p>
+                                <p class="text-sm text-orange-700">
+                                    <span class="font-medium">推荐理由：</span>聚焦调茶师群体与产业创投的垂直大会，杭州地区重要新茶饮活动，适合关注产品研发与投资方向的从业者
+                                </p>
+                            </div>
+                            <div class="flex justify-end">
+                                <a href="https://tech.sina.cn/2026-04-24/detail-inhvrana3131694.d.html" target="_blank" class="text-sm text-emerald-600 hover:text-emerald-700 font-medium flex items-center">
+                                    查看来源
+                                    <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+                                    </svg>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 已举办12: 新茶咖大会 -->
+                <div class="event-card glass-card rounded-xl shadow-sm border-innovation overflow-hidden fade-in" data-type="innovation" data-region="other">
+                    <div class="p-4 cursor-pointer past-header" onclick="togglePast(this)">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center space-x-3 flex-1 min-w-0">
+                                <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-emerald-400 to-emerald-600 flex flex-col items-center justify-center text-white flex-shrink-0">
+                                    <span class="text-sm font-bold leading-none">17</span>
+                                    <span class="text-xs opacity-90">4月</span>
+                                </div>
+                                <div class="min-w-0 flex-1">
+                                    <div class="flex flex-wrap items-center gap-1.5 mb-1">
+                                        <span class="text-xs bg-emerald-100 text-emerald-700 px-2 py-0.5 rounded font-medium">产品创新</span>
+                                    </div>
+                                    <h4 class="font-medium text-emerald-900 text-sm sm:text-base truncate">2026第六届新茶咖大会</h4>
+                                </div>
+                            </div>
+                            <div class="flex items-center space-x-3 ml-3">
+                                <span class="hidden sm:inline text-xs text-emerald-600/60">广州</span>
+                                <svg class="chevron w-5 h-5 text-emerald-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="collapse-content px-4 pb-4">
+                        <div class="pt-3 border-t border-emerald-100">
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm text-emerald-700/70 mb-3">
+                                <div class="flex items-center">
+                                    <svg class="w-4 h-4 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                                    </svg>
+                                    2026年4月17日
+                                </div>
+                                <div class="flex items-center">
+                                    <svg class="w-4 h-4 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                    </svg>
+                                    广州东方宾馆
+                                </div>
+                            </div>
+                            <div class="flex items-start text-sm text-emerald-700/70 mb-3">
+                                <svg class="w-4 h-4 mr-2 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
+                                </svg>
+                                <span>主办：智慧餐饮Talk | 联合承办：企迈科技</span>
+                            </div>
+                            <div class="bg-emerald-50/60 rounded-lg p-3 mb-3">
+                                <p class="text-sm text-emerald-800 mb-2">
+                                    <span class="font-medium">主题/亮点：</span>聚焦茶咖赛道实战与趋势；400+实力品牌，二十余位嘉宾分享；联合发布《2026茶饮咖啡数据洞察报告》；圆桌论坛：口味"内卷"如何破局——茶咖产品创新的想象力边界；CoCo都可、有茶、唐茶序、茉沏等品牌参与
+                                </p>
+                                <p class="text-sm text-orange-700">
+                                    <span class="font-medium">推荐理由：</span>茶咖垂直领域专业大会，聚焦实战落地，华南地区重要茶咖行业活动
+                                </p>
+                            </div>
+                            <div class="flex justify-end">
+                                <a href="https://www.163.com/dy/article/KR6M55LE0552F4BQ.html" target="_blank" class="text-sm text-emerald-600 hover:text-emerald-700 font-medium flex items-center">
+                                    查看来源
+                                    <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+                                    </svg>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 已举办13: Foodaily茶饮烘焙论坛 -->
+                <div class="event-card glass-card rounded-xl shadow-sm border-innovation overflow-hidden fade-in" data-type="innovation" data-region="yangtze">
+                    <div class="p-4 cursor-pointer past-header" onclick="togglePast(this)">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center space-x-3 flex-1 min-w-0">
+                                <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-emerald-400 to-emerald-600 flex flex-col items-center justify-center text-white flex-shrink-0">
+                                    <span class="text-sm font-bold leading-none">15</span>
+                                    <span class="text-xs opacity-90">4月</span>
+                                </div>
+                                <div class="min-w-0 flex-1">
+                                    <div class="flex flex-wrap items-center gap-1.5 mb-1">
+                                        <span class="text-xs bg-emerald-100 text-emerald-700 px-2 py-0.5 rounded font-medium">产品创新</span>
+                                        <span class="text-xs bg-purple-100 text-purple-700 px-2 py-0.5 rounded font-medium">🌟 长三角·无锡</span>
+                                    </div>
+                                    <h4 class="font-medium text-emerald-900 text-sm sm:text-base truncate">Foodaily 2026全球食品饮料创新博览会·茶饮烘焙论坛</h4>
+                                </div>
+                            </div>
+                            <div class="flex items-center space-x-3 ml-3">
+                                <span class="hidden sm:inline text-xs text-emerald-600/60">无锡</span>
+                                <svg class="chevron w-5 h-5 text-emerald-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="collapse-content px-4 pb-4">
+                        <div class="pt-3 border-t border-emerald-100">
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm text-emerald-700/70 mb-3">
+                                <div class="flex items-center">
+                                    <svg class="w-4 h-4 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                                    </svg>
+                                    2026年4月15-17日
+                                </div>
+                                <div class="flex items-center">
+                                    <svg class="w-4 h-4 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                    </svg>
+                                    无锡国际会议中心
+                                </div>
+                            </div>
+                            <div class="flex items-start text-sm text-emerald-700/70 mb-3">
+                                <svg class="w-4 h-4 mr-2 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
+                                </svg>
+                                <span>主办：Foodaily每日食品</span>
+                            </div>
+                            <div class="bg-emerald-50/60 rounded-lg p-3 mb-3">
+                                <p class="text-sm text-emerald-800 mb-2">
+                                    <span class="font-medium">主题/亮点：</span>聚力健康·重塑增长；4月16日茶饮烘焙论坛主题"现制茶饮再进化：健康浪潮下的新味觉革命"；176位行业领袖、3000+品牌决策人、500+创新品牌；益禾堂等分享健康化体系工程实践
+                                </p>
+                                <p class="text-sm text-orange-700">
+                                    <span class="font-medium">推荐理由：</span>食品饮料创新领域风向标活动，茶饮烘焙论坛聚焦健康化趋势，适合关注产品创新和健康消费的从业者
+                                </p>
+                            </div>
+                            <div class="flex justify-end">
+                                <a href="https://foodaily.com/index.php/articles/41257" target="_blank" class="text-sm text-emerald-600 hover:text-emerald-700 font-medium flex items-center">
+                                    查看来源
+                                    <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+                                    </svg>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 已举办14: CCFA连锁餐饮峰会 -->
+                <div class="event-card glass-card rounded-xl shadow-sm border-industry overflow-hidden fade-in" data-type="industry" data-region="shanghai">
+                    <div class="p-4 cursor-pointer past-header" onclick="togglePast(this)">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center space-x-3 flex-1 min-w-0">
+                                <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-blue-400 to-blue-600 flex flex-col items-center justify-center text-white flex-shrink-0">
+                                    <span class="text-sm font-bold leading-none">7</span>
+                                    <span class="text-xs opacity-90">4月</span>
+                                </div>
+                                <div class="min-w-0 flex-1">
+                                    <div class="flex flex-wrap items-center gap-1.5 mb-1">
+                                        <span class="text-xs bg-blue-100 text-blue-700 px-2 py-0.5 rounded font-medium">行业大会</span>
+                                        <span class="text-xs bg-orange-100 text-orange-700 px-2 py-0.5 rounded font-medium">🏙️ 上海</span>
+                                        <span class="text-xs bg-purple-100 text-purple-700 px-2 py-0.5 rounded font-medium">🌟 长三角</span>
+                                    </div>
+                                    <h4 class="font-medium text-emerald-900 text-sm sm:text-base truncate">2026 CCFA中国连锁餐饮峰会（含新茶饮板块）</h4>
+                                </div>
+                            </div>
+                            <div class="flex items-center space-x-3 ml-3">
+                                <span class="hidden sm:inline text-xs text-emerald-600/60">上海</span>
+                                <svg class="chevron w-5 h-5 text-emerald-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="collapse-content px-4 pb-4">
+                        <div class="pt-3 border-t border-emerald-100">
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm text-emerald-700/70 mb-3">
+                                <div class="flex items-center">
+                                    <svg class="w-4 h-4 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                                    </svg>
+                                    2026年4月7-9日
+                                </div>
+                                <div class="flex items-center">
+                                    <svg class="w-4 h-4 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                    </svg>
+                                    上海「🏙️ 上海」
+                                </div>
+                            </div>
+                            <div class="flex items-start text-sm text-emerald-700/70 mb-3">
+                                <svg class="w-4 h-4 mr-2 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
+                                </svg>
+                                <span>主办：中国连锁经营协会（CCFA）</span>
+                            </div>
+                            <div class="bg-emerald-50/60 rounded-lg p-3 mb-3">
+                                <p class="text-sm text-emerald-800 mb-2">
+                                    <span class="font-medium">主题/亮点：</span>探寻下一个五年的确定性机会；发布《2026 CCFA新茶饮创新案例》（益禾堂AI选址等入选）；发布"2026中国餐饮/新茶饮出海品牌50"榜单；甜啦啦等茶饮品牌CEO分享出海路径；蜜雪冰城海外门店超4000家
+                                </p>
+                                <p class="text-sm text-orange-700">
+                                    <span class="font-medium">推荐理由：</span>中国连锁经营协会主办的权威行业峰会，新茶饮创新案例和出海榜单具有行业风向标意义
+                                </p>
+                            </div>
+                            <div class="flex justify-end">
+                                <a href="http://www.xinhuanet.com/food/20260413/18877cc4016b4e10a766b1bd8d36f6f1/c.html" target="_blank" class="text-sm text-blue-600 hover:text-blue-700 font-medium flex items-center">
+                                    查看来源
+                                    <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+                                    </svg>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 已举办15: HOTELEX上海展 -->
+                <div class="event-card glass-card rounded-xl shadow-sm border-industry overflow-hidden fade-in" data-type="industry" data-region="shanghai">
+                    <div class="p-4 cursor-pointer past-header" onclick="togglePast(this)">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center space-x-3 flex-1 min-w-0">
+                                <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-blue-400 to-blue-600 flex flex-col items-center justify-center text-white flex-shrink-0">
+                                    <span class="text-sm font-bold leading-none">30</span>
+                                    <span class="text-xs opacity-90">3月</span>
+                                </div>
+                                <div class="min-w-0 flex-1">
+                                    <div class="flex flex-wrap items-center gap-1.5 mb-1">
+                                        <span class="text-xs bg-blue-100 text-blue-700 px-2 py-0.5 rounded font-medium">行业大会</span>
+                                        <span class="text-xs bg-orange-100 text-orange-700 px-2 py-0.5 rounded font-medium">🏙️ 上海</span>
+                                        <span class="text-xs bg-purple-100 text-purple-700 px-2 py-0.5 rounded font-medium">🌟 长三角</span>
+                                    </div>
+                                    <h4 class="font-medium text-emerald-900 text-sm sm:text-base truncate">2026 HOTELEX上海展·咖啡茶饮系列论坛</h4>
+                                </div>
+                            </div>
+                            <div class="flex items-center space-x-3 ml-3">
+                                <span class="hidden sm:inline text-xs text-emerald-600/60">上海虹桥</span>
+                                <svg class="chevron w-5 h-5 text-emerald-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="collapse-content px-4 pb-4">
+                        <div class="pt-3 border-t border-emerald-100">
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm text-emerald-700/70 mb-3">
+                                <div class="flex items-center">
+                                    <svg class="w-4 h-4 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                                    </svg>
+                                    2026年3月30日-4月2日
+                                </div>
+                                <div class="flex items-center">
+                                    <svg class="w-4 h-4 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                    </svg>
+                                    上海国家会展中心（虹桥）
+                                </div>
+                            </div>
+                            <div class="flex items-start text-sm text-emerald-700/70 mb-3">
+                                <svg class="w-4 h-4 mr-2 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
+                                </svg>
+                                <span>主办：中国旅游饭店业协会、上海博华国际展览有限公司</span>
+                            </div>
+                            <div class="bg-emerald-50/60 rounded-lg p-3 mb-3">
+                                <p class="text-sm text-emerald-800 mb-2">
+                                    <span class="font-medium">主题/亮点：</span>40万㎡展览，3000+展商，28万+专业观众；20+场专业论坛和赛事：咖啡茶饮的100种可能创新论坛、新式茶饮创新峰会、中国现制咖啡茶饮包装与设备创新论坛、世界潮饮大赛2026赛季；首次设立SmartEAT功能食品及饮料展
+                                </p>
+                                <p class="text-sm text-orange-700">
+                                    <span class="font-medium">推荐理由：</span>上海乃至全国规模最大的酒店餐饮行业博览会之一，咖啡茶饮板块内容最丰富，是了解行业趋势和对接资源的核心平台
+                                </p>
+                            </div>
+                            <div class="flex justify-end">
+                                <a href="https://m.sohu.com/a/994563685_650130/" target="_blank" class="text-sm text-blue-600 hover:text-blue-700 font-medium flex items-center">
+                                    查看来源
+                                    <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+                                    </svg>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="hidden text-center py-8" id="past-empty">
+                <p class="text-emerald-600/60 text-sm">暂无符合条件的已举办活动</p>
+            </div>
+        </section>
+        <!-- 监测范围说明 -->
+        <section class="mb-8">
+            <div class="flex items-center space-x-2 mb-4 sm:mb-5">
+                <div class="w-1 h-5 sm:h-6 bg-gradient-to-b from-emerald-500 to-emerald-300 rounded-full"></div>
+                <h3 class="text-lg sm:text-xl font-bold text-emerald-900">监测范围说明</h3>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-5">
+                <!-- 收录范围 -->
+                <div class="glass-card rounded-2xl p-5 shadow-sm">
+                    <div class="flex items-center space-x-2 mb-4">
+                        <div class="w-8 h-8 rounded-lg bg-emerald-100 flex items-center justify-center">
+                            <svg class="w-5 h-5 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                            </svg>
+                        </div>
+                        <h4 class="font-semibold text-emerald-900">收录范围</h4>
+                    </div>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="px-3 py-1.5 text-xs sm:text-sm bg-emerald-50 text-emerald-700 rounded-lg border border-emerald-200/60 scope-card cursor-default">
+                            新茶饮行业发展论坛/峰会
+                        </span>
+                        <span class="px-3 py-1.5 text-xs sm:text-sm bg-emerald-50 text-emerald-700 rounded-lg border border-emerald-200/60 scope-card cursor-default">
+                            茶饮供应链与产品创新论坛
+                        </span>
+                        <span class="px-3 py-1.5 text-xs sm:text-sm bg-emerald-50 text-emerald-700 rounded-lg border border-emerald-200/60 scope-card cursor-default">
+                            茶饮创业与品牌增长论坛
+                        </span>
+                        <span class="px-3 py-1.5 text-xs sm:text-sm bg-emerald-50 text-emerald-700 rounded-lg border border-emerald-200/60 scope-card cursor-default">
+                            茶饮与咖啡/新餐饮融合论坛
+                        </span>
+                        <span class="px-3 py-1.5 text-xs sm:text-sm bg-orange-50 text-orange-700 rounded-lg border border-orange-200/60 scope-card cursor-default">
+                            上海及长三角地区茶饮论坛
+                        </span>
+                        <span class="px-3 py-1.5 text-xs sm:text-sm bg-emerald-50 text-emerald-700 rounded-lg border border-emerald-200/60 scope-card cursor-default">
+                            行业协会/权威机构主办会议
+                        </span>
+                        <span class="px-3 py-1.5 text-xs sm:text-sm bg-emerald-50 text-emerald-700 rounded-lg border border-emerald-200/60 scope-card cursor-default">
+                            茶饮展会同期专业论坛
+                        </span>
+                        <span class="px-3 py-1.5 text-xs sm:text-sm bg-emerald-50 text-emerald-700 rounded-lg border border-emerald-200/60 scope-card cursor-default">
+                            年度大会/行业盛典
+                        </span>
+                    </div>
+                </div>
+
+                <!-- 不收录范围 -->
+                <div class="glass-card rounded-2xl p-5 shadow-sm">
+                    <div class="flex items-center space-x-2 mb-4">
+                        <div class="w-8 h-8 rounded-lg bg-rose-100 flex items-center justify-center">
+                            <svg class="w-5 h-5 text-rose-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                            </svg>
+                        </div>
+                        <h4 class="font-semibold text-emerald-900">不收录范围</h4>
+                    </div>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="px-3 py-1.5 text-xs sm:text-sm bg-rose-50 text-rose-600 rounded-lg border border-rose-200/60 scope-card cursor-default">
+                            传统原叶茶学术研讨会
+                        </span>
+                        <span class="px-3 py-1.5 text-xs sm:text-sm bg-rose-50 text-rose-600 rounded-lg border border-rose-200/60 scope-card cursor-default">
+                            单一品牌内部培训
+                        </span>
+                        <span class="px-3 py-1.5 text-xs sm:text-sm bg-rose-50 text-rose-600 rounded-lg border border-rose-200/60 scope-card cursor-default">
+                            品牌招商会
+                        </span>
+                        <span class="px-3 py-1.5 text-xs sm:text-sm bg-rose-50 text-rose-600 rounded-lg border border-rose-200/60 scope-card cursor-default">
+                            门店促销/快闪活动
+                        </span>
+                        <span class="px-3 py-1.5 text-xs sm:text-sm bg-rose-50 text-rose-600 rounded-lg border border-rose-200/60 scope-card cursor-default">
+                            综合餐饮论坛边缘内容
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 选会建议 -->
+        <section class="mb-8">
+            <div class="flex items-center space-x-2 mb-4 sm:mb-5">
+                <div class="w-1 h-5 sm:h-6 bg-gradient-to-b from-emerald-500 to-emerald-300 rounded-full"></div>
+                <h3 class="text-lg sm:text-xl font-bold text-emerald-900">选会建议</h3>
+            </div>
+            
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                <div class="glass-card rounded-2xl p-5 shadow-sm card-hover">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-400 to-blue-500 flex items-center justify-center mb-3 shadow-md shadow-blue-200">
+                        <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path>
+                        </svg>
+                    </div>
+                    <h4 class="font-semibold text-emerald-900 mb-2">必参加（最高规格）</h4>
+                    <p class="text-sm text-emerald-700/70 leading-relaxed">
+                        中国新茶饮行业发展大会（中茶协主办，国家级）、HOTELEX上海展（规模最大、内容最全）
+                    </p>
+                </div>
+                
+                <div class="glass-card rounded-2xl p-5 shadow-sm card-hover">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-purple-400 to-purple-500 flex items-center justify-center mb-3 shadow-md shadow-purple-200">
+                        <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                        </svg>
+                    </div>
+                    <h4 class="font-semibold text-emerald-900 mb-2">长三角从业者优先</h4>
+                    <p class="text-sm text-emerald-700/70 leading-relaxed">
+                        HOTELEX上海展、CCFA上海峰会、苏州茶博会（春秋两季）、杭州茶博会、Foodaily无锡
+                    </p>
+                </div>
+                
+                <div class="glass-card rounded-2xl p-5 shadow-sm card-hover">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-400 to-emerald-500 flex items-center justify-center mb-3 shadow-md shadow-emerald-200">
+                        <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
+                        </svg>
+                    </div>
+                    <h4 class="font-semibold text-emerald-900 mb-2">关注产品创新</h4>
+                    <p class="text-sm text-emerald-700/70 leading-relaxed">
+                        咖门超级产品大会、新茶咖大会、Foodaily茶饮烘焙论坛、调茶师大会
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 底部信息 -->
+        <footer class="mt-8 pt-6 border-t border-emerald-100">
+            <div class="glass-card rounded-2xl p-5">
+                <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 text-sm">
+                    <div class="flex flex-wrap items-center gap-4 sm:gap-6">
+                        <div class="flex items-center text-emerald-700/70">
+                            <svg class="w-4 h-4 mr-2 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+                            </svg>
+                            <span>更新频率：<strong class="text-emerald-700">每周一</strong></span>
+                        </div>
+                        <div class="flex items-center text-emerald-700/70">
+                            <svg class="w-4 h-4 mr-2 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                            </svg>
+                            <span>数据截止：<strong class="text-emerald-700">2026年7月21日</strong></span>
+                        </div>
+                        <div class="flex items-center text-emerald-700/70">
+                            <svg class="w-4 h-4 mr-2 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                            <span>监测启动：<strong class="text-emerald-700">2026.07.21</strong></span>
+                        </div>
+                    </div>
+                    <div class="flex items-center text-emerald-500/60 text-xs">
+                        <svg class="w-3.5 h-3.5 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
+                        </svg>
+                        数据仅供参考，请以官方信息为准
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </main>
+
+    <script>
+        // 折叠展开已举办活动详情
+        function togglePast(header) {
+            const card = header.closest('.event-card');
+            const content = card.querySelector('.collapse-content');
+            const chevron = card.querySelector('.chevron');
+            
+            content.classList.toggle('expanded');
+            chevron.classList.toggle('rotated');
+        }
+
+        // 全部展开/收起
+        let allExpanded = false;
+        document.getElementById('expand-all').addEventListener('click', function() {
+            const contents = document.querySelectorAll('#past-events .collapse-content');
+            const chevrons = document.querySelectorAll('#past-events .chevron');
+            const btn = document.getElementById('expand-all');
+            
+            allExpanded = !allExpanded;
+            
+            contents.forEach(c => {
+                if (allExpanded) {
+                    c.classList.add('expanded');
+                } else {
+                    c.classList.remove('expanded');
+                }
+            });
+            chevrons.forEach(ch => {
+                if (allExpanded) {
+                    ch.classList.add('rotated');
+                } else {
+                    ch.classList.remove('rotated');
+                }
+            });
+            
+            btn.innerHTML = allExpanded 
+                ? '<svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"></path></svg>全部收起'
+                : '<svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"></path></svg>全部展开';
+        });
+
+        // 筛选功能
+        let currentTypeFilter = 'all';
+        let currentRegionFilter = 'all';
+
+        function applyFilters() {
+            const upcomingCards = document.querySelectorAll('#upcoming-events .event-card');
+            const pastCards = document.querySelectorAll('#past-events .event-card');
+            const upcomingEmpty = document.getElementById('upcoming-empty');
+            const pastEmpty = document.getElementById('past-empty');
+            const upcomingCountEl = document.getElementById('upcoming-count');
+            const pastCountEl = document.getElementById('past-count');
+            
+            let upcomingVisible = 0;
+            let pastVisible = 0;
+
+            function matchesFilter(card) {
+                const type = card.dataset.type;
+                const region = card.dataset.region;
+                
+                const typeMatch = currentTypeFilter === 'all' || type === currentTypeFilter;
+                let regionMatch = true;
+                
+                if (currentRegionFilter === 'shanghai') {
+                    regionMatch = region === 'shanghai';
+                } else if (currentRegionFilter === 'yangtze') {
+                    regionMatch = region === 'shanghai' || region === 'yangtze';
+                }
+                
+                return typeMatch && regionMatch;
+            }
+
+            upcomingCards.forEach(card => {
+                if (matchesFilter(card)) {
+                    card.classList.remove('hidden-event');
+                    upcomingVisible++;
+                } else {
+                    card.classList.add('hidden-event');
+                }
+            });
+
+            pastCards.forEach(card => {
+                if (matchesFilter(card)) {
+                    card.classList.remove('hidden-event');
+                    pastVisible++;
+                } else {
+                    card.classList.add('hidden-event');
+                }
+            });
+
+            upcomingEmpty.classList.toggle('hidden', upcomingVisible > 0);
+            pastEmpty.classList.toggle('hidden', pastVisible > 0);
+            upcomingCountEl.textContent = upcomingVisible + '场';
+            pastCountEl.textContent = pastVisible + '场';
+        }
+
+        // 类型筛选按钮
+        document.querySelectorAll('[data-filter-type]').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('[data-filter-type]').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                currentTypeFilter = this.dataset.filterType;
+                applyFilters();
+            });
+        });
+
+        // 地区筛选按钮
+        document.querySelectorAll('[data-filter-region]').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('[data-filter-region]').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                currentRegionFilter = this.dataset.filterRegion;
+                applyFilters();
+            });
+        });
+    </script>
+</body>
+</html>
