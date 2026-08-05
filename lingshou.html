@@ -1,0 +1,1485 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>餐饮饮品零售热点雷达 | F&B RETAIL RADAR</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#ffffff;--s1:#fafafa;--s2:#f5f5f5;--s3:#f0f0f0;
+  --bd:#e8e8e8;--bd2:#d4d4d4;
+  --t1:#111111;--t2:#555555;--t3:#888888;--t4:#aaaaaa;
+  /* 深青/蓝绿主色调 */
+  --teal:#0d9488;--teal-d:rgba(13,148,136,.08);
+  --teal-deep:#0f766e;--teal-deep-d:rgba(15,118,110,.08);
+  --teal-soft:#14b8a6;--teal-soft-d:rgba(20,184,166,.08);
+  /* 功能色 */
+  --red:#dc2626;--red-d:rgba(220,38,38,.06);
+  --blue:#2563eb;--blue-d:rgba(37,99,235,.06);
+  --purple:#7c3aed;--purple-d:rgba(124,58,237,.06);
+  --green:#059669;--green-d:rgba(5,150,105,.06);
+  --mono:'JetBrains Mono',monospace;
+}
+body{font-family:'Inter',-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;background:var(--bg);color:var(--t1);line-height:1.6;-webkit-font-smoothing:antialiased;font-size:15px}
+a{color:inherit;text-decoration:none}
+.container{max-width:920px;margin:0 auto;padding:36px 28px 80px}
+.rh{border-bottom:1px solid var(--bd);padding-bottom:28px;margin-bottom:28px}
+.rh-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+.rh-name{font-size:13px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--teal-deep);font-family:var(--mono)}
+.rh-time{font-size:12px;color:var(--t3);font-family:var(--mono)}
+.rh-title{font-size:28px;font-weight:800;letter-spacing:-0.3px;margin-bottom:4px;color:var(--t1)}
+.rh-title .accent{color:var(--teal-deep)}
+.rh-desc{font-size:15px;color:var(--t3);letter-spacing:0.2px}
+.sp{display:grid;grid-template-columns:repeat(6,1fr);gap:1px;background:var(--bd);border:1px solid var(--bd);border-radius:12px;overflow:hidden;margin-bottom:14px}
+.sc{background:#fff;padding:16px 18px}
+.sc-l{font-size:11px;font-weight:600;color:var(--t4);text-transform:uppercase;letter-spacing:0.8px;margin-bottom:5px}
+.sc-v{font-size:22px;font-weight:700;font-family:var(--mono);color:var(--t1)}
+.sc-v .u{font-size:12px;font-weight:500;color:var(--t3);margin-left:2px}
+.sc-v.t-primary{color:var(--teal-deep)}.sc-v.t{color:var(--teal)}.sc-v.r{color:var(--red)}.sc-v.b{color:var(--blue)}.sc-v.g{color:var(--green)}
+.sc-n{font-size:11px;color:var(--t4);margin-top:3px}
+.sb{display:flex;align-items:center;gap:10px;padding:12px 18px;background:var(--s1);border:1px solid var(--bd);border-radius:8px;margin-bottom:32px;font-size:12px;color:var(--t3);font-family:var(--mono);flex-wrap:wrap;letter-spacing:0.2px}
+.sb .dg{width:7px;height:7px;border-radius:50%;background:var(--teal-deep);flex-shrink:0;animation:bk 2.5s infinite}
+@keyframes bk{0%,100%{opacity:1}50%{opacity:.3}}
+.sb .sep{color:var(--bd2)}
+.sh{display:flex;align-items:center;gap:10px;margin-bottom:16px;padding-bottom:10px;border-bottom:1px solid var(--bd)}
+.sh-icon{font-size:16px}
+.sh-title{font-size:13px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;font-family:var(--mono)}
+.sh-title.teal-primary{color:var(--teal-deep)}.sh-title.teal{color:var(--teal)}.sh-title.red{color:var(--red)}.sh-title.blue{color:var(--blue)}.sh-title.purple{color:var(--purple)}
+.sh-hint{font-size:12px;color:var(--t4);margin-left:auto;font-family:var(--mono)}
+.bi{background:#fff;border:1px solid var(--bd);border-radius:12px;padding:22px 24px;margin-bottom:12px;transition:all .2s;cursor:pointer;position:relative}
+.bi:hover{border-color:var(--teal-deep);box-shadow:0 2px 12px rgba(15,118,110,.08)}
+.bi-arrow{position:absolute;top:22px;right:22px;font-size:16px;color:var(--t4);transition:color .2s,transform .2s}
+.bi:hover .bi-arrow{color:var(--teal-deep);transform:translate(2px,-2px)}
+.bi-top{display:flex;align-items:center;gap:8px;margin-bottom:10px;flex-wrap:wrap}
+.bi-time{font-size:12px;font-family:var(--mono);color:var(--t4);font-weight:500}
+.bi-rank{font-size:11px;font-weight:700;padding:2px 8px;border-radius:4px;letter-spacing:.5px;font-family:var(--mono)}
+.bi-rank.s-grade{background:var(--red-d);color:var(--red)}
+.bi-rank.a-grade{background:var(--teal-deep-d);color:var(--teal-deep)}
+.bi-rank.b-grade{background:var(--blue-d);color:var(--blue)}
+.bi-rank.c-grade{background:rgba(0,0,0,.04);color:var(--t3)}
+.bi-score{font-size:11px;font-weight:700;padding:2px 8px;border-radius:4px;font-family:var(--mono);background:var(--teal-d);color:var(--teal-deep)}
+.bi-stag{font-size:11px;font-weight:600;padding:2px 8px;border-radius:4px;letter-spacing:.3px}
+.bi-stag.official{background:var(--green-d);color:var(--green)}.bi-stag.authority{background:var(--blue-d);color:var(--blue)}.bi-stag.commercial{background:var(--teal-d);color:var(--teal-deep)}.bi-stag.industry{background:var(--purple-d);color:var(--purple)}.bi-stag.self{background:rgba(0,0,0,.04);color:var(--t3)}
+.bi-kw{font-size:11px;padding:2px 8px;border-radius:4px;background:var(--s2);color:var(--t3);font-weight:500}
+.bi-title{font-size:18px;font-weight:700;line-height:1.55;color:var(--t1);margin-bottom:8px;letter-spacing:0.1px;padding-right:28px}
+.bi-body{font-size:14px;color:var(--t2);line-height:1.85;margin-bottom:10px;letter-spacing:0.15px}
+.bi-body strong{color:var(--t1);font-weight:600}
+.bi-hit{display:flex;align-items:center;gap:7px;font-size:12px;color:var(--t4);font-family:var(--mono);padding-top:10px;border-top:1px solid var(--s2);margin-top:10px;flex-wrap:wrap;letter-spacing:0.2px}
+.bi-hit .hl{color:var(--t3);font-weight:600}.bi-hit .hk{color:var(--teal-deep);font-weight:500}.bi-hit .hs{color:var(--t3)}
+.bi-hit a{color:var(--teal-deep);font-weight:500;transition:color .15s}.bi-hit a:hover{color:var(--teal);text-decoration:underline}
+.bi.compact{padding:16px 20px}
+.bi.compact .bi-title{font-size:15px;margin-bottom:4px;line-height:1.5}
+.grade-section{margin-bottom:32px}
+.grade-empty{padding:20px;text-align:center;color:var(--t4);font-size:13px;font-family:var(--mono)}
+.sum{background:var(--s1);border:1px solid var(--bd);border-radius:12px;padding:24px 26px;margin-top:36px}
+.sum h3{font-size:13px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;font-family:var(--mono);color:var(--teal-deep);margin-bottom:12px}
+.sum p{font-size:14.5px;color:var(--t2);line-height:1.9;letter-spacing:0.15px;margin-bottom:10px}
+.sum strong{color:var(--teal-deep);font-weight:600}
+.sum ul{list-style:none;padding:0}
+.sum li{font-size:14px;color:var(--t2);line-height:1.9;padding-left:18px;position:relative;margin-bottom:6px}
+.sum li::before{content:"▸";position:absolute;left:0;color:var(--teal-deep);font-weight:700}
+.ft{text-align:center;margin-top:48px;padding-top:24px;border-top:1px solid var(--bd)}
+.ft-row{display:flex;align-items:center;justify-content:center;gap:6px;font-size:12px;color:var(--t4);font-family:var(--mono);letter-spacing:0.3px}
+@media(max-width:700px){
+  .container{padding:18px 16px 60px}
+  .rh-title{font-size:22px}
+  .sp{grid-template-columns:repeat(3,1fr)}
+  .sc-v{font-size:18px}
+  .bi{padding:16px 18px}.bi-title{font-size:16px}
+  .bi.compact .bi-title{font-size:14px}
+}
+::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:var(--bd);border-radius:3px}
+</style>
+</head>
+<body>
+<div class="container">
+
+<div class="rh">
+  <div class="rh-row">
+    <span class="rh-name">F&B RETAIL RADAR</span>
+    <span class="rh-time">2026-08-05</span>
+  </div>
+  <div class="rh-title">24小时<span class="accent">餐饮饮品零售</span>热点雷达</div>
+  <div class="rh-desc">餐饮饮品零售化赛道追踪 · 餐饮零售化·饮品零售化·零售渠道·零食量贩·即时零售·社区团购 · 仅收录7日内首发新闻</div>
+</div>
+
+<div class="sp">
+  <div class="sc"><div class="sc-l">零售信号</div><div class="sc-v t-primary">79</div><div class="sc-n">7日内首发信号</div></div>
+  <div class="sc"><div class="sc-l">S级</div><div class="sc-v r">0</div><div class="sc-n">行业重大事件</div></div>
+  <div class="sc"><div class="sc-l">A级</div><div class="sc-v t">42</div><div class="sc-n">头部品牌动作</div></div>
+  <div class="sc"><div class="sc-l">B级</div><div class="sc-v b">33</div><div class="sc-n">参考价值动态</div></div>
+  <div class="sc"><div class="sc-l">可信源</div><div class="sc-v">21</div><div class="sc-n">官方+权威+商业媒体</div></div>
+  <div class="sc"><div class="sc-l">C级资讯</div><div class="sc-v">4</div><div class="sc-n">行业小动态</div></div>
+</div>
+
+<div class="sb">
+  <span class="dg"></span>
+  <span>覆盖餐饮零售化/饮品零售化/零售渠道/零食量贩/即时零售/社区团购赛道</span>
+  <span class="sep">|</span>
+  <span>来源优先级：品牌官方 > 权威媒体 > 商业媒体 > 行业媒体 > 自媒体</span>
+</div>
+
+<!-- S级 -->
+<div class="grade-section">
+<div class="sh">
+  <span class="sh-icon">⚡</span>
+  <span class="sh-title red">S级 · 行业级重大事件</span>
+  <span class="sh-hint">0条 · 最高优先级</span>
+</div>
+<div class="grade-empty">本期暂无S级重大事件</div>
+</div>
+
+<!-- A级 -->
+<div class="grade-section">
+<div class="sh">
+  <span class="sh-icon">🔥</span>
+  <span class="sh-title teal-primary">A级 · 头部品牌重要动作</span>
+  <span class="sh-hint">42条 · 重点关注</span>
+</div>
+
+<div class="bi" onclick="window.open('http://m.toutiao.com/group/7668149719281058340/','_blank')">
+  <span class="bi-arrow">↗</span>
+  <div class="bi-top">
+    <span class="bi-time">07/30</span>
+    <span class="bi-rank a-grade">A级·#1</span>
+    <span class="bi-score">85分</span>
+    <span class="bi-stag commercial">商业媒体</span>
+    <span class="bi-kw">冰杯</span><span class="bi-kw">饮品零售化</span><span class="bi-kw">价格战</span><span class="bi-kw">跨界巨头</span>
+  </div>
+  <div class="bi-title">冰杯引爆夏日消费！产销两旺，巨头跨界入局打响价格战</div>
+  <div class="bi-body">今夏冰杯品类持续爆发，古茗、蜜雪冰城等茶饮品牌及盒马等商超热销。数据显示，2026年Q2线下零售渠道冰杯销售额同比增94.43%，规模近2024年同期17倍。农夫山泉、伊利等巨头跨界入局，主流冰杯价格同比下降30%-40%，市场竞争加剧。</div>
+  <div class="bi-hit">
+    <span class="hl">来源</span>
+    <span class="hs">· 蓝鲸新闻 ·</span>
+    <a href="http://m.toutiao.com/group/7668149719281058340/" target="_blank" onclick="event.stopPropagation()">原文链接</a>
+  </div>
+</div>
+<div class="bi" onclick="window.open('https://36kr.com/p/3923804147579013','_blank')">
+  <span class="bi-arrow">↗</span>
+  <div class="bi-top">
+    <span class="bi-time">08/04</span>
+    <span class="bi-rank a-grade">A级·#2</span>
+    <span class="bi-score">85分</span>
+    <span class="bi-stag commercial">商业媒体</span>
+    <span class="bi-kw">碳酸饮料</span><span class="bi-kw">无糖茶饮</span><span class="bi-kw">控糖消费</span><span class="bi-kw">饮品零售</span>
+  </div>
+  <div class="bi-title">饮料市场大变局：含糖碳酸饮料销量下滑，无糖茶饮成新增长引擎</div>
+  <div class="bi-body">2026年Q2含糖碳酸饮料销售额同比下降12.23%，商超出库量近乎腰斩。全民控糖意识觉醒促使无糖即饮茶逆势增长16.1%。同时，新茶饮与咖啡门店持续扩张分流传统瓶装饮料市场，饮品市场正加速向无糖、健康化转型。</div>
+  <div class="bi-hit">
+    <span class="hl">来源</span>
+    <span class="hs">· 36氪 ·</span>
+    <a href="https://36kr.com/p/3923804147579013" target="_blank" onclick="event.stopPropagation()">原文链接</a>
+  </div>
+</div>
+<div class="bi" onclick="window.open('http://m.toutiao.com/group/7670092442829373998/','_blank')">
+  <span class="bi-arrow">↗</span>
+  <div class="bi-top">
+    <span class="bi-time">08/04</span>
+    <span class="bi-rank a-grade">A级·#3</span>
+    <span class="bi-score">85分</span>
+    <span class="bi-stag commercial">商业媒体</span>
+    <span class="bi-kw">即时零售</span><span class="bi-kw">便利店</span><span class="bi-kw">前置仓</span><span class="bi-kw">淘宝便利店</span>
+  </div>
+  <div class="bi-title">便利店“升仓”了：淘宝、美团加码即时零售仓网争夺</div>
+  <div class="bi-body">淘宝便利店与美团松鼠便利年内均落地超700家门店。巨头争夺的并非传统临街便利店，而是隐匿于非临街铺位、SKU达5000-10000的纯线上“前置仓”。此举旨在补齐即时零售仓网密度并拉高毛利，传统便利店的生存空间正被即时零售挤压。</div>
+  <div class="bi-hit">
+    <span class="hl">来源</span>
+    <span class="hs">· 36氪 ·</span>
+    <a href="http://m.toutiao.com/group/7670092442829373998/" target="_blank" onclick="event.stopPropagation()">原文链接</a>
+  </div>
+</div>
+<div class="bi" onclick="window.open('http://m.toutiao.com/group/7669397136877945384/','_blank')">
+  <span class="bi-arrow">↗</span>
+  <div class="bi-top">
+    <span class="bi-time">08/02</span>
+    <span class="bi-rank a-grade">A级·#4</span>
+    <span class="bi-score">85分</span>
+    <span class="bi-stag commercial">商业媒体</span>
+    <span class="bi-kw">挪瓦咖啡</span><span class="bi-kw">店中店</span><span class="bi-kw">万店规模</span><span class="bi-kw">品控争议</span>
+  </div>
+  <div class="bi-title">起底挪瓦万店规模下的店中店模式与品控迷局</div>
+  <div class="bi-body">国产咖啡品牌挪瓦门店突破万家，其中80%为嵌入便利店等场景的“店中店”。媒体走访发现该模式存在店员兼职、品控标准落差等问题。同时，其加盟门槛降至最低2.98万元，并于2026年初完成数亿元C轮融资。其低成本扩张模式及品控争议引发行业关注。</div>
+  <div class="bi-hit">
+    <span class="hl">来源</span>
+    <span class="hs">· 每日经济新闻 ·</span>
+    <a href="http://m.toutiao.com/group/7669397136877945384/" target="_blank" onclick="event.stopPropagation()">原文链接</a>
+  </div>
+</div>
+<div class="bi" onclick="window.open('http://m.toutiao.com/group/7668670143840420415/','_blank')">
+  <span class="bi-arrow">↗</span>
+  <div class="bi-top">
+    <span class="bi-time">07/31</span>
+    <span class="bi-rank a-grade">A级·#5</span>
+    <span class="bi-score">85分</span>
+    <span class="bi-stag commercial">商业媒体</span>
+    <span class="bi-kw">罗森中国</span><span class="bi-kw">高管换帅</span><span class="bi-kw">万店战略</span><span class="bi-kw">便利店</span>
+  </div>
+  <div class="bi-title">罗森中国换帅：藤原孝司接任总裁，万店目标推迟至2028年</div>
+  <div class="bi-body">罗森中国宣布换帅，副总裁藤原孝司将接任总裁。受即时零售及量贩零食店分流影响，罗森原计划2025年达成的万店目标推迟至2028年。截至2026年6月，其门店数为7018家。未来罗森将通过提升自有品牌占比、推出小店型等方式应对挑战，并预计下半年实现广东地区盈利。</div>
+  <div class="bi-hit">
+    <span class="hl">来源</span>
+    <span class="hs">· 蓝鲸新闻 ·</span>
+    <a href="http://m.toutiao.com/group/7668670143840420415/" target="_blank" onclick="event.stopPropagation()">原文链接</a>
+  </div>
+</div>
+<div class="bi" onclick="window.open('http://m.toutiao.com/group/7668988484824154676/','_blank')">
+  <span class="bi-arrow">↗</span>
+  <div class="bi-top">
+    <span class="bi-time">08/01</span>
+    <span class="bi-rank a-grade">A级·#6</span>
+    <span class="bi-score">85分</span>
+    <span class="bi-stag industry">行业媒体</span>
+    <span class="bi-kw">古茗</span><span class="bi-kw">鲜柚生啤</span><span class="bi-kw">日茶夜酒</span><span class="bi-kw">供应链复用</span>
+  </div>
+  <div class="bi-title">古茗内测“鲜柚生啤”探索“日茶夜酒”，加速向“茶饮界711”转型</div>
+  <div class="bi-body">古茗正内测罐装“鲜柚生啤”产品，探索“日茶夜酒”模式。继咖啡、早餐之后，古茗品类边界再次打破，并计划开出集多品类的“鲜享店”。其核心在于复用冷链供应链能力，加速向“茶饮界711”转型，新茶饮行业正掀起“茶饮+”品类拓展浪潮。</div>
+  <div class="bi-hit">
+    <span class="hl">来源</span>
+    <span class="hs">· 咖门 ·</span>
+    <a href="http://m.toutiao.com/group/7668988484824154676/" target="_blank" onclick="event.stopPropagation()">原文链接</a>
+  </div>
+</div>
+<div class="bi" onclick="window.open('http://m.toutiao.com/group/7669730277849072179/','_blank')">
+  <span class="bi-arrow">↗</span>
+  <div class="bi-top">
+    <span class="bi-time">08/03</span>
+    <span class="bi-rank a-grade">A级·#7</span>
+    <span class="bi-score">85分</span>
+    <span class="bi-stag commercial">商业媒体</span>
+    <span class="bi-kw">东鹏饮料</span><span class="bi-kw">半年报</span><span class="bi-kw">茶饮料</span><span class="bi-kw">出海战略</span>
+  </div>
+  <div class="bi-title">东鹏饮料2026半年报：茶饮料增两倍接棒，多品类战略切换加速</div>
+  <div class="bi-body">东鹏饮料发布2026年半年报，营收124.43亿元同比增15.89%，净利润28.67亿元。能量饮料增速放缓至6.89%，茶饮料大增208.99%成新增长引擎。公司毛利率升至48.36%，加速推进全国化产能布局与出海战略，基本完成向综合性饮料集团的结构切换。</div>
+  <div class="bi-hit">
+    <span class="hl">来源</span>
+    <span class="hs">· 21世纪经济报道 ·</span>
+    <a href="http://m.toutiao.com/group/7669730277849072179/" target="_blank" onclick="event.stopPropagation()">原文链接</a>
+  </div>
+</div>
+<div class="bi" onclick="window.open('http://m.toutiao.com/group/7669756753482891810/','_blank')">
+  <span class="bi-arrow">↗</span>
+  <div class="bi-top">
+    <span class="bi-time">08/03</span>
+    <span class="bi-rank a-grade">A级·#8</span>
+    <span class="bi-score">85分</span>
+    <span class="bi-stag commercial">商业媒体</span>
+    <span class="bi-kw">盒马</span><span class="bi-kw">烘焙供应链</span><span class="bi-kw">轻资产转型</span><span class="bi-kw">门店调整</span>
+  </div>
+  <div class="bi-title">盒马1.3亿出售烘焙厂股权，加速轻资产转型与门店调整</div>
+  <div class="bi-body">盒马以1.3亿元出售旗下糖盒食品55%股权，并签下五年10.5亿保底订单。同时，盒马加速关停北京等地大店，大力扩张超盒算NB折扣店。此举标志着盒马战略从追求规模转向聚焦盈利与轻资产运营，全面优化供应链与门店结构。</div>
+  <div class="bi-hit">
+    <span class="hl">来源</span>
+    <span class="hs">· 钛媒体APP ·</span>
+    <a href="http://m.toutiao.com/group/7669756753482891810/" target="_blank" onclick="event.stopPropagation()">原文链接</a>
+  </div>
+</div>
+<div class="bi" onclick="window.open('https://www.inewfood.com/sams-club-vs-costco-retail-strategy-china.html','_blank')">
+  <span class="bi-arrow">↗</span>
+  <div class="bi-top">
+    <span class="bi-time">07/29</span>
+    <span class="bi-rank a-grade">A级·#9</span>
+    <span class="bi-score">85分</span>
+    <span class="bi-stag official">品牌官方</span>
+    <span class="bi-kw">山姆会员店</span><span class="bi-kw">开市客</span><span class="bi-kw">仓储会员店</span><span class="bi-kw">低毛利模型</span>
+  </div>
+  <div class="bi-title">山姆与开市客中国市场扩张对比：低毛利模型决定开店速度差异</div>
+  <div class="bi-body">截至2026财年，山姆在华门店达67家，开市客仅7家。扩张差异源于经营哲学不同：山姆通过增设前置仓等“做加法”将大采购转化为高频服务；开市客则恪守11%低毛利纪律“做减法”。山姆2025年销售额破1400亿，率先完成模型本土化，开市客则亟需补齐即时履约以提升续卡率。</div>
+  <div class="bi-hit">
+    <span class="hl">来源</span>
+    <span class="hs">· 联商网 ·</span>
+    <a href="https://www.inewfood.com/sams-club-vs-costco-retail-strategy-china.html" target="_blank" onclick="event.stopPropagation()">原文链接</a>
+  </div>
+</div>
+<div class="bi" onclick="window.open('http://m.toutiao.com/group/7668284895998771712/','_blank')">
+  <span class="bi-arrow">↗</span>
+  <div class="bi-top">
+    <span class="bi-time">07/30</span>
+    <span class="bi-rank a-grade">A级·#10</span>
+    <span class="bi-score">85分</span>
+    <span class="bi-stag authority">权威媒体</span>
+    <span class="bi-kw">Costco</span><span class="bi-kw">京东</span><span class="bi-kw">仓储会员店</span><span class="bi-kw">线上渠道</span>
+  </div>
+  <div class="bi-title">Costco入驻京东开设官方旗舰店，打破会员门槛与地域限制</div>
+  <div class="bi-body">Costco与京东达成合作，京东成为其中国唯一官方电商合作伙伴。京东Costco官方旗舰店上线，非会员可直接下单（加价20%），配送覆盖全国超2800个区县。此举标志着Costco从线下重资产扩张转向线上轻资产突围，意在缩小与山姆在中国市场的差距。</div>
+  <div class="bi-hit">
+    <span class="hl">来源</span>
+    <span class="hs">· 经济观察报 ·</span>
+    <a href="http://m.toutiao.com/group/7668284895998771712/" target="_blank" onclick="event.stopPropagation()">原文链接</a>
+  </div>
+</div>
+<div class="bi" onclick="window.open('https://36kr.com/p/3918939576774279','_blank')">
+  <span class="bi-arrow">↗</span>
+  <div class="bi-top">
+    <span class="bi-time">07/31</span>
+    <span class="bi-rank a-grade">A级·#11</span>
+    <span class="bi-score">85分</span>
+    <span class="bi-stag commercial">商业媒体</span>
+    <span class="bi-kw">港股IPO</span><span class="bi-kw">餐饮上市</span><span class="bi-kw">资本监管</span><span class="bi-kw">老乡鸡</span>
+  </div>
+  <div class="bi-title">港股餐饮IPO接连失效，消费赛道上市窗口收窄</div>
+  <div class="bi-body">2026年7月，袁记云饺、巴奴火锅、老乡鸡等六家餐饮企业港股IPO申请陆续失效。受红筹转H股结构调整、监管深度问询及二级市场估值压力传导影响，餐饮企业赴港上市面临三重压力。尽管消费赛道IPO窗口未完全关闭，但正不断收窄，同期部分包装食品企业却成功上市并大涨。</div>
+  <div class="bi-hit">
+    <span class="hl">来源</span>
+    <span class="hs">· 36氪 ·</span>
+    <a href="https://36kr.com/p/3918939576774279" target="_blank" onclick="event.stopPropagation()">原文链接</a>
+  </div>
+</div>
+<div class="bi" onclick="window.open('http://m.toutiao.com/group/7669976742118867490/','_blank')">
+  <span class="bi-arrow">↗</span>
+  <div class="bi-top">
+    <span class="bi-time">08/04</span>
+    <span class="bi-rank a-grade">A级·#12</span>
+    <span class="bi-score">85分</span>
+    <span class="bi-stag commercial">商业媒体</span>
+    <span class="bi-kw">Kopi Kenangan</span><span class="bi-kw">咖啡IPO</span><span class="bi-kw">东南亚市场</span><span class="bi-kw">融资上市</span>
+  </div>
+  <div class="bi-title">印尼咖啡品牌Kopi Kenangan探讨IPO，估值或达10亿美元</div>
+  <div class="bi-body">印尼连锁咖啡品牌Kopi Kenangan正与投行接触探讨IPO，估值最高或达10亿美元。截至2025年底，该品牌在六国开出1324家门店，2025年营收1.84亿美元，同比增长45%，实现首次全年盈利。其股东包括小威、李嘉诚维港投资及红杉等。</div>
+  <div class="bi-hit">
+    <span class="hl">来源</span>
+    <span class="hs">· 钛媒体 ·</span>
+    <a href="http://m.toutiao.com/group/7669976742118867490/" target="_blank" onclick="event.stopPropagation()">原文链接</a>
+  </div>
+</div>
+<div class="bi" onclick="window.open('https://36kr.com/p/3918117975840384','_blank')">
+  <span class="bi-arrow">↗</span>
+  <div class="bi-top">
+    <span class="bi-time">08/01</span>
+    <span class="bi-rank a-grade">A级·#13</span>
+    <span class="bi-score">82分</span>
+    <span class="bi-stag commercial">商业媒体</span>
+    <span class="bi-kw">永辉超市</span><span class="bi-kw">门店调改</span><span class="bi-kw">胖东来化</span><span class="bi-kw">业绩预盈</span>
+  </div>
+  <div class="bi-title">永辉超市暂停大范围“胖改” 上半年预盈2.5亿但二季度转亏</div>
+  <div class="bi-body">永辉超市宣布暂停大范围“胖改”，转入精细化深耕阶段，聚焦商品力与场景力。公司预计2026年上半年归母净利润2.5亿元，同比扭亏为盈，但主要得益于一季度高增，二季度再度转亏约0.37亿元。</div>
+  <div class="bi-hit">
+    <span class="hl">来源</span>
+    <span class="hs">· 雷达财经 ·</span>
+    <a href="https://36kr.com/p/3918117975840384" target="_blank" onclick="event.stopPropagation()">原文链接</a>
+  </div>
+</div>
+<div class="bi" onclick="window.open('http://m.toutiao.com/group/7668631967520309762/','_blank')">
+  <span class="bi-arrow">↗</span>
+  <div class="bi-top">
+    <span class="bi-time">07/31</span>
+    <span class="bi-rank a-grade">A级·#14</span>
+    <span class="bi-score">79分</span>
+    <span class="bi-stag self">自媒体</span>
+    <span class="bi-kw">预制菜国标</span><span class="bi-kw">正大食品</span><span class="bi-kw">西贝</span><span class="bi-kw">食品安全</span>
+  </div>
+  <div class="bi-title">预制菜国标年内落地引发行业洗牌，正大、西贝因违规翻车</div>
+  <div class="bi-body">2026年预制菜新国标年内落地，严禁防腐剂并规范配料表。正大食品因产品检出违禁防腐剂被通报，西贝因未明确标示预制菜属性被约谈。新规将引发行业大洗牌，预计九成不合规小厂面临淘汰。</div>
+  <div class="bi-hit">
+    <span class="hl">来源</span>
+    <span class="hs">· 大头峰-津品猎手 ·</span>
+    <a href="http://m.toutiao.com/group/7668631967520309762/" target="_blank" onclick="event.stopPropagation()">原文链接</a>
+  </div>
+</div>
+<div class="bi" onclick="window.open('http://m.toutiao.com/group/7670006579491553842/','_blank')">
+  <span class="bi-arrow">↗</span>
+  <div class="bi-top">
+    <span class="bi-time">08/04</span>
+    <span class="bi-rank a-grade">A级·#15</span>
+    <span class="bi-score">79分</span>
+    <span class="bi-stag self">自媒体</span>
+    <span class="bi-kw">便利店</span><span class="bi-kw">美宜佳</span><span class="bi-kw">行业拐点</span><span class="bi-kw">即时零售</span>
+  </div>
+  <div class="bi-title">中国便利店之王美宜佳宣布“换引擎”，行业从规模扩张转向质量驱动</div>
+  <div class="bi-body">CCFA数据显示2026上半年71.7%便利店来客数下降，行业扩张放缓。面对即时零售与量贩零食店冲击，门店数量第一的美宜佳宣布从规模驱动转向质量驱动，行业头部企业加速布局鲜食工厂与区域深耕，便利店赛道迎来从“拼开店”到“拼内功”的拐点。</div>
+  <div class="bi-hit">
+    <span class="hl">来源</span>
+    <span class="hs">· 职业零售网 ·</span>
+    <a href="http://m.toutiao.com/group/7670006579491553842/" target="_blank" onclick="event.stopPropagation()">原文链接</a>
+  </div>
+</div>
+<div class="bi" onclick="window.open('http://m.toutiao.com/group/7669710626519843355/','_blank')">
+  <span class="bi-arrow">↗</span>
+  <div class="bi-top">
+    <span class="bi-time">08/03</span>
+    <span class="bi-rank a-grade">A级·#16</span>
+    <span class="bi-score">79分</span>
+    <span class="bi-stag self">自媒体</span>
+    <span class="bi-kw">鸣鸣很忙</span><span class="bi-kw">量贩零食</span><span class="bi-kw">港交所上市</span><span class="bi-kw">下沉市场</span>
+  </div>
+  <div class="bi-title">鸣鸣很忙港交所上市市值达950亿港元，深耕下沉市场量贩零食</div>
+  <div class="bi-body">鸣鸣很忙（零食很忙与赵一鸣零食）今年1月底在港交所成功上市，首日高开88%，总市值达950亿港元。两位创始人晏周与赵定深耕下沉市场，主打低价量贩零食模式，通过精准选址与严格加盟管理，实现门店快速扩张，成为下沉市场零食零售巨头。</div>
+  <div class="bi-hit">
+    <span class="hl">来源</span>
+    <span class="hs">· 深氪新消费 ·</span>
+    <a href="http://m.toutiao.com/group/7669710626519843355/" target="_blank" onclick="event.stopPropagation()">原文链接</a>
+  </div>
+</div>
+<div class="bi" onclick="window.open('http://m.toutiao.com/group/7670092788583514664/','_blank')">
+  <span class="bi-arrow">↗</span>
+  <div class="bi-top">
+    <span class="bi-time">08/04</span>
+    <span class="bi-rank a-grade">A级·#17</span>
+    <span class="bi-score">79分</span>
+    <span class="bi-stag self">自媒体</span>
+    <span class="bi-kw">鸣鸣很忙</span><span class="bi-kw">量贩零食</span><span class="bi-kw">门店扩张</span><span class="bi-kw">供应链</span>
+  </div>
+  <div class="bi-title">鸣鸣很忙3万店之后，量贩零食的“下半场”才真正开始</div>
+  <div class="bi-body">2026年7月，鸣鸣很忙宣布签约门店突破3万家，刷新国内休闲食品连锁规模纪录，标志量贩零食赛道进入精耕时代。文章指出，3万店不仅是规模胜利，更是“密度经济学”与供应链反向重写的体现。行业下半场将告别单纯跑马圈地，聚焦同店增长与效率提升。</div>
+  <div class="bi-hit">
+    <span class="hl">来源</span>
+    <span class="hs">· 沙水沙师兄 ·</span>
+    <a href="http://m.toutiao.com/group/7670092788583514664/" target="_blank" onclick="event.stopPropagation()">原文链接</a>
+  </div>
+</div>
+<div class="bi" onclick="window.open('http://m.toutiao.com/group/7668306174353195546/','_blank')">
+  <span class="bi-arrow">↗</span>
+  <div class="bi-top">
+    <span class="bi-time">07/31</span>
+    <span class="bi-rank a-grade">A级·#18</span>
+    <span class="bi-score">79分</span>
+    <span class="bi-stag self">自媒体</span>
+    <span class="bi-kw">冷冻饮品新规</span><span class="bi-kw">茶饮跨界冰淇淋</span><span class="bi-kw">食品安全监管</span><span class="bi-kw">生产许可</span>
+  </div>
+  <div class="bi-title">冷冻饮品生产新规征求意见：茶饮品牌跨界冰淇淋生产门槛重定义</div>
+  <div class="bi-body">7月29日，市场监管总局发布《冷冻饮品生产许可审查细则（征求意见稿）》。新规明确禁止分装生产，全面升级设施设备、污染防控及全链条食品安全制度要求。这将大幅提高茶饮品牌跨界预包装冰淇淋的代工与合规成本，促使行业向自建工厂或聚焦门店现制转型，标志着冷冻饮品监管迈向全链条过程控制。</div>
+  <div class="bi-hit">
+    <span class="hl">来源</span>
+    <span class="hs">· 梅小茗 ·</span>
+    <a href="http://m.toutiao.com/group/7668306174353195546/" target="_blank" onclick="event.stopPropagation()">原文链接</a>
+  </div>
+</div>
+<div class="bi" onclick="window.open('https://finance.ifeng.com/c/8vK9dbtWOdY?ch=ttsearch','_blank')">
+  <span class="bi-arrow">↗</span>
+  <div class="bi-top">
+    <span class="bi-time">08/04</span>
+    <span class="bi-rank a-grade">A级·#19</span>
+    <span class="bi-score">72分</span>
+    <span class="bi-stag self">自媒体</span>
+    <span class="bi-kw">瑞幸咖啡</span><span class="bi-kw">二季度财报</span><span class="bi-kw">门店扩张</span><span class="bi-kw">全品类布局</span>
+  </div>
+  <div class="bi-title">瑞幸咖啡二季度营收159亿创新高，门店达3.6万家加速全品类布局</div>
+  <div class="bi-body">瑞幸咖啡发布2026年二季度财报，净收入159亿元创季度新高，同比增长28.5%。目前门店数达36087家，上半年净增5039家。公司加速全品类布局，非咖产品销售额累计达200亿元，意图打造现制饮品便利店。同时面临同店销售额下滑及联营商回本周期拉长等挑战。</div>
+  <div class="bi-hit">
+    <span class="hl">来源</span>
+    <span class="hs">· 财经杂志 ·</span>
+    <a href="https://finance.ifeng.com/c/8vK9dbtWOdY?ch=ttsearch" target="_blank" onclick="event.stopPropagation()">原文链接</a>
+  </div>
+</div>
+<div class="bi" onclick="window.open('https://caifuhao.eastmoney.com/news/20260805111011826336910','_blank')">
+  <span class="bi-arrow">↗</span>
+  <div class="bi-top">
+    <span class="bi-time">08/05</span>
+    <span class="bi-rank a-grade">A级·#20</span>
+    <span class="bi-score">68分</span>
+    <span class="bi-stag self">自媒体</span>
+    <span class="bi-kw">瑞幸咖啡</span><span class="bi-kw">即享咖啡</span><span class="bi-kw">咖啡液</span><span class="bi-kw">饮品零售化</span>
+  </div>
+  <div class="bi-title">瑞幸即享咖啡液累计销量破9亿杯，全面布局“现制+零售”双轮驱动</div>
+  <div class="bi-body">瑞幸即享咖啡液累计销量突破9亿杯，增速持续领跑行业。瑞幸正从单一咖啡液向瓶装即饮等多品类延伸，并进驻商超、便利店等线下渠道。其“现制+零售”战略有效覆盖非门店场景，构建全场景咖啡供给体系，抢占预包装咖啡市场份额。</div>
+  <div class="bi-hit">
+    <span class="hl">来源</span>
+    <span class="hs">· 消费钛度 ·</span>
+    <a href="https://caifuhao.eastmoney.com/news/20260805111011826336910" target="_blank" onclick="event.stopPropagation()">原文链接</a>
+  </div>
+</div>
+<div class="bi" onclick="window.open('http://m.toutiao.com/group/7668239820602278415/','_blank')">
+  <span class="bi-arrow">↗</span>
+  <div class="bi-top">
+    <span class="bi-time">07/30</span>
+    <span class="bi-rank a-grade">A级·#21</span>
+    <span class="bi-score">68分</span>
+    <span class="bi-stag self">自媒体</span>
+    <span class="bi-kw">海底捞</span><span class="bi-kw">蜜雪冰城</span><span class="bi-kw">早餐市场</span><span class="bi-kw">供应链</span>
+  </div>
+  <div class="bi-title">从海底捞到蜜雪冰城，早餐江湖“卷”起来了！供应链成制胜关键</div>
+  <div class="bi-body">海底捞、东方甄选、星巴克、瑞幸、蜜雪冰城等头部品牌纷纷加码早餐市场，争夺“早八点”高频刚需时段。中国早餐市场规模已突破2万亿元，但低客单价与高标准化要求使供应链成为破局核心，行业正经历向“供应链驱动”的深度变革。</div>
+  <div class="bi-hit">
+    <span class="hl">来源</span>
+    <span class="hs">· 行业见闻录 ·</span>
+    <a href="http://m.toutiao.com/group/7668239820602278415/" target="_blank" onclick="event.stopPropagation()">原文链接</a>
+  </div>
+</div>
+<div class="bi" onclick="window.open('http://m.toutiao.com/group/7669100463878373907/','_blank')">
+  <span class="bi-arrow">↗</span>
+  <div class="bi-top">
+    <span class="bi-time">08/02</span>
+    <span class="bi-rank a-grade">A级·#22</span>
+    <span class="bi-score">68分</span>
+    <span class="bi-stag self">自媒体</span>
+    <span class="bi-kw">蜜雪冰城</span><span class="bi-kw">出海战略</span><span class="bi-kw">供应链</span><span class="bi-kw">股价下跌</span>
+  </div>
+  <div class="bi-title">蜜雪冰城海外扩张遇阻与股价腰斩：低价模式出海面临供应链与本土化挑战</div>
+  <div class="bi-body">蜜雪冰城2025年海外门店净减少428家，港股股价较高点跌去66%。其国内低价模式出海面临供应链成本高、本土化水土不服等挑战。尽管2025年营收达335.6亿元，但国内门店超5.5万家趋于饱和，海外增长故事尚未跑通，资本市场对其估值逻辑正从门店数量转向单店盈利能力。</div>
+  <div class="bi-hit">
+    <span class="hl">来源</span>
+    <span class="hs">· 行商万象馆 ·</span>
+    <a href="http://m.toutiao.com/group/7669100463878373907/" target="_blank" onclick="event.stopPropagation()">原文链接</a>
+  </div>
+</div>
+<div class="bi" onclick="window.open('http://m.toutiao.com/group/7668679988245201460/','_blank')">
+  <span class="bi-arrow">↗</span>
+  <div class="bi-top">
+    <span class="bi-time">07/31</span>
+    <span class="bi-rank a-grade">A级·#23</span>
+    <span class="bi-score">68分</span>
+    <span class="bi-stag self">自媒体</span>
+    <span class="bi-kw">百胜中国</span><span class="bi-kw">袁记食品</span><span class="bi-kw">百菲乳业</span><span class="bi-kw">餐饮IPO</span>
+  </div>
+  <div class="bi-title">餐饮零售早报：百胜中国将完成收购必胜客，袁记食品及百菲乳业递表港股</div>
+  <div class="bi-body">百胜中国预计8月完成收购内地必胜客并加速开店；袁记食品更新招股书拟赴港上市，2025年营收近28亿；百菲乳业第四次冲击港股。此外，东鹏饮料上半年营收超124亿，星巴克、喜茶等持续探索社区空间与新业态，头部品牌资本化与门店创新并进。</div>
+  <div class="bi-hit">
+    <span class="hl">来源</span>
+    <span class="hs">· 零售商业财经 ·</span>
+    <a href="http://m.toutiao.com/group/7668679988245201460/" target="_blank" onclick="event.stopPropagation()">原文链接</a>
+  </div>
+</div>
+<div class="bi" onclick="window.open('http://m.toutiao.com/group/7668603712033538596/','_blank')">
+  <span class="bi-arrow">↗</span>
+  <div class="bi-top">
+    <span class="bi-time">07/31</span>
+    <span class="bi-rank a-grade">A级·#24</span>
+    <span class="bi-score">68分</span>
+    <span class="bi-stag self">自媒体</span>
+    <span class="bi-kw">星巴克</span><span class="bi-kw">轻资产模式</span><span class="bi-kw">博裕资本</span><span class="bi-kw">财报</span>
+  </div>
+  <div class="bi-title">星巴克发布2026财年三季度财报，中国轻资产合资模式初显成效</div>
+  <div class="bi-body">星巴克发布2026财年Q3财报，首次披露中国区转向轻资产合资模式（博裕资本持股60%）后的业绩。中国合资公司贡献5250万美元收入，营业利润率超100%。新模式助力星巴克中国门店向2万家目标扩张，全球同店销售增长7.9%，公司上调全年业绩预期。</div>
+  <div class="bi-hit">
+    <span class="hl">来源</span>
+    <span class="hs">· 东方快消品中心 ·</span>
+    <a href="http://m.toutiao.com/group/7668603712033538596/" target="_blank" onclick="event.stopPropagation()">原文链接</a>
+  </div>
+</div>
+<div class="bi" onclick="window.open('http://m.toutiao.com/group/7669960246961472040/','_blank')">
+  <span class="bi-arrow">↗</span>
+  <div class="bi-top">
+    <span class="bi-time">08/04</span>
+    <span class="bi-rank a-grade">A级·#25</span>
+    <span class="bi-score">68分</span>
+    <span class="bi-stag self">自媒体</span>
+    <span class="bi-kw">乳企</span><span class="bi-kw">餐饮渠道</span><span class="bi-kw">现制酸奶</span><span class="bi-kw">蒙牛</span>
+  </div>
+  <div class="bi-title">头部乳企加速布局餐饮渠道 现制酸奶赛道暗藏多重考验</div>
+  <div class="bi-body">受传统乳品零售承压影响，蒙牛、君乐宝、伊利等头部乳企加速布局现制酸奶及B端餐饮渠道。2025年全国餐饮收入超5.7万亿元，餐饮渠道成为乳企新增长极。然而现制酸奶赛道资本退潮、闭店潮涌现，乳企跨界餐饮仍面临多重结构性风险与考验。</div>
+  <div class="bi-hit">
+    <span class="hl">来源</span>
+    <span class="hs">· 新快报 ·</span>
+    <a href="http://m.toutiao.com/group/7669960246961472040/" target="_blank" onclick="event.stopPropagation()">原文链接</a>
+  </div>
+</div>
+<div class="bi" onclick="window.open('http://m.toutiao.com/group/7670107924370358828/','_blank')">
+  <span class="bi-arrow">↗</span>
+  <div class="bi-top">
+    <span class="bi-time">08/04</span>
+    <span class="bi-rank a-grade">A级·#26</span>
+    <span class="bi-score">68分</span>
+    <span class="bi-stag self">自媒体</span>
+    <span class="bi-kw">餐饮零售化</span><span class="bi-kw">业态边界</span><span class="bi-kw">百果园</span><span class="bi-kw">便利店餐饮化</span>
+  </div>
+  <div class="bi-title">水果店卖烧鸭，便利店开食堂：全行业跨界餐饮，零售业态边界加速消融</div>
+  <div class="bi-body">2026年实体零售业态边界加速消融，百果园、钱大妈、7-Eleven、茶颜悦色等品牌纷纷跨界现制餐饮。此举旨在通过高频刚需餐饮提升客流与坪效，复用供应链抵御线上冲击，但也面临高损耗、运营复杂等挑战，标志着零售向一站式生活解决方案转型。</div>
+  <div class="bi-hit">
+    <span class="hl">来源</span>
+    <span class="hs">· 江湖诚信，喜乐万事欢 ·</span>
+    <a href="http://m.toutiao.com/group/7670107924370358828/" target="_blank" onclick="event.stopPropagation()">原文链接</a>
+  </div>
+</div>
+<div class="bi" onclick="window.open('http://m.toutiao.com/group/7667894458148110875/','_blank')">
+  <span class="bi-arrow">↗</span>
+  <div class="bi-top">
+    <span class="bi-time">07/29</span>
+    <span class="bi-rank a-grade">A级·#27</span>
+    <span class="bi-score">68分</span>
+    <span class="bi-stag self">自媒体</span>
+    <span class="bi-kw">淘宝便利店</span><span class="bi-kw">即时零售</span><span class="bi-kw">前置仓</span><span class="bi-kw">闪电仓</span>
+  </div>
+  <div class="bi-title">淘宝便利店疯狂扩仓：上线不足9个月落地近800家，目标3000家</div>
+  <div class="bi-body">阿里淘宝闪购推出的淘宝便利店上线不足9个月已落地近800家，定下2027财年末3000家拓店目标。平台采用轻资产打法，通过零排他、低门槛招商吸纳市场存量仓店，与美团重管控自营模式形成对立，但也面临供给稳定性弱、标准难统一及品控模糊等隐患。</div>
+  <div class="bi-hit">
+    <span class="hl">来源</span>
+    <span class="hs">· 多才圆月oI ·</span>
+    <a href="http://m.toutiao.com/group/7667894458148110875/" target="_blank" onclick="event.stopPropagation()">原文链接</a>
+  </div>
+</div>
+<div class="bi" onclick="window.open('http://m.toutiao.com/group/7669604377287524910/','_blank')">
+  <span class="bi-arrow">↗</span>
+  <div class="bi-top">
+    <span class="bi-time">08/03</span>
+    <span class="bi-rank a-grade">A级·#28</span>
+    <span class="bi-score">68分</span>
+    <span class="bi-stag self">自媒体</span>
+    <span class="bi-kw">连锁零售</span><span class="bi-kw">零食量贩</span><span class="bi-kw">便利店</span><span class="bi-kw">门店扩张</span>
+  </div>
+  <div class="bi-title">2026上半年连锁零售门店发展：6大赛道负增长，零食与便利店逆势扩张</div>
+  <div class="bi-body">2026年上半年连锁零售9大赛道中6个陷入负增长，仅便利店、零食和数码3C实现正增长。连锁零食爆发式增长，开闭店比达5.93，好想来净增超5100家，零食很忙突破万店；便利店开店放缓，开闭店比降至1.46。行业全面进入存量博弈时代。</div>
+  <div class="bi-hit">
+    <span class="hl">来源</span>
+    <span class="hs">· 消费微风向 ·</span>
+    <a href="http://m.toutiao.com/group/7669604377287524910/" target="_blank" onclick="event.stopPropagation()">原文链接</a>
+  </div>
+</div>
+<div class="bi" onclick="window.open('http://m.toutiao.com/group/7670214504898413107/','_blank')">
+  <span class="bi-arrow">↗</span>
+  <div class="bi-top">
+    <span class="bi-time">08/05</span>
+    <span class="bi-rank a-grade">A级·#29</span>
+    <span class="bi-score">68分</span>
+    <span class="bi-stag self">自媒体</span>
+    <span class="bi-kw">古茗</span><span class="bi-kw">HPP果汁</span><span class="bi-kw">饮品零售化</span><span class="bi-kw">冷链供应链</span>
+  </div>
+  <div class="bi-title">“乡镇茶饮之王”古茗HPP即饮果汁进军商超便利店</div>
+  <div class="bi-body">古茗HPP即饮果汁正式进入永辉、十足等商超便利店渠道，首批登陆广深杭等城市。古茗依托自建冷链体系与自有HPP工厂产能优势，推出9.9元/瓶的HPP果汁，将其在现制茶饮领域的“高质平价”逻辑延伸至即饮零售赛道，该项目在内部被定为S级。</div>
+  <div class="bi-hit">
+    <span class="hl">来源</span>
+    <span class="hs">· 材能新界 ·</span>
+    <a href="http://m.toutiao.com/group/7670214504898413107/" target="_blank" onclick="event.stopPropagation()">原文链接</a>
+  </div>
+</div>
+<div class="bi" onclick="window.open('http://m.toutiao.com/group/7670182247333200390/','_blank')">
+  <span class="bi-arrow">↗</span>
+  <div class="bi-top">
+    <span class="bi-time">08/04</span>
+    <span class="bi-rank a-grade">A级·#30</span>
+    <span class="bi-score">68分</span>
+    <span class="bi-stag self">自媒体</span>
+    <span class="bi-kw">沪上阿姨</span><span class="bi-kw">半年报</span><span class="bi-kw">茶咖双轮驱动</span><span class="bi-kw">下沉市场</span>
+  </div>
+  <div class="bi-title">沪上阿姨上半年利润增长近六成，“茶咖双轮驱动”成重点战略</div>
+  <div class="bi-body">沪上阿姨发布2026年半年报，上半年收入25.89亿元，同比增长42.4%，期内利润3.21亿元，同比增长58.3%。截至6月底全球门店达13155家，下沉市场占比超53%。公司明确将“茶咖双轮驱动”作为重点战略，咖啡杯占比稳定在10%以上，并持续拓展早餐等全时段消费场景。</div>
+  <div class="bi-hit">
+    <span class="hl">来源</span>
+    <span class="hs">· 南方都市报 ·</span>
+    <a href="http://m.toutiao.com/group/7670182247333200390/" target="_blank" onclick="event.stopPropagation()">原文链接</a>
+  </div>
+</div>
+<div class="bi" onclick="window.open('https://cj.sina.cn/article/norm_detail?url=https%3A%2F%2Ffinance.sina.com.cn%2Froll%2F2026-07-30%2Fdoc-inikqupy9593382.shtml','_blank')">
+  <span class="bi-arrow">↗</span>
+  <div class="bi-top">
+    <span class="bi-time">07/30</span>
+    <span class="bi-rank a-grade">A级·#31</span>
+    <span class="bi-score">68分</span>
+    <span class="bi-stag self">自媒体</span>
+    <span class="bi-kw">美宜佳</span><span class="bi-kw">全国联采</span><span class="bi-kw">高质量发展</span><span class="bi-kw">便利店</span>
+  </div>
+  <div class="bi-title">美宜佳29周年发布高质量发展战略，启动全国联采签约10家头部品牌</div>
+  <div class="bi-body">美宜佳在29周年大会宣布从规模驱动转向质量驱动，发布五大升级规划。同时正式启动全国联采，与蒙牛、伊利、东鹏等10家头部品牌签约。作为门店超4万家的便利店榜首，此举标志着其向高质量可持续发展迈进。</div>
+  <div class="bi-hit">
+    <span class="hl">来源</span>
+    <span class="hs">· 美通社 ·</span>
+    <a href="https://cj.sina.cn/article/norm_detail?url=https%3A%2F%2Ffinance.sina.com.cn%2Froll%2F2026-07-30%2Fdoc-inikqupy9593382.shtml" target="_blank" onclick="event.stopPropagation()">原文链接</a>
+  </div>
+</div>
+<div class="bi" onclick="window.open('http://m.toutiao.com/group/7669620244352139816/','_blank')">
+  <span class="bi-arrow">↗</span>
+  <div class="bi-top">
+    <span class="bi-time">08/03</span>
+    <span class="bi-rank a-grade">A级·#32</span>
+    <span class="bi-score">68分</span>
+    <span class="bi-stag self">自媒体</span>
+    <span class="bi-kw">沃尔玛</span><span class="bi-kw">沃集鲜</span><span class="bi-kw">自有品牌</span><span class="bi-kw">商超转型</span>
+  </div>
+  <div class="bi-title">“散装山姆”挤满打工人，9.9小绿瓶成断货王，沃尔玛中国单季爆卖544亿</div>
+  <div class="bi-body">沃尔玛中国2027财年Q1净销售额达544亿元，同比增长22.3%。其大卖场依托自有品牌“沃集鲜”成功翻红，主打9.9元高性价比及创新猎奇食品饮料，被称为“散装山姆”。沃集鲜与山姆共享供应链但错位互补，精准承接年轻及小家庭客群，推动传统商超向生鲜食品及自有品牌战略转型。</div>
+  <div class="bi-hit">
+    <span class="hl">来源</span>
+    <span class="hs">· 天下网商 ·</span>
+    <a href="http://m.toutiao.com/group/7669620244352139816/" target="_blank" onclick="event.stopPropagation()">原文链接</a>
+  </div>
+</div>
+<div class="bi" onclick="window.open('http://m.toutiao.com/group/7667968866848539180/','_blank')">
+  <span class="bi-arrow">↗</span>
+  <div class="bi-top">
+    <span class="bi-time">07/29</span>
+    <span class="bi-rank a-grade">A级·#33</span>
+    <span class="bi-score">68分</span>
+    <span class="bi-stag self">自媒体</span>
+    <span class="bi-kw">盒马</span><span class="bi-kw">快手菜</span><span class="bi-kw">预制菜</span><span class="bi-kw">餐饮零售化</span>
+  </div>
+  <div class="bi-title">盒马预制菜更名'快手菜'回归 2026上半年销量涨五成</div>
+  <div class="bi-body">盒马将预制菜更名为'快手菜'（冷链半成品净菜），2026年上半年整体销量同比上涨五成，川渝地区销量翻倍。此次增长得益于国家预制菜新规落地规范行业标准、产品形态升级保留现炒口感，以及精准匹配年轻上班族便捷健康的日常饮食刚需。</div>
+  <div class="bi-hit">
+    <span class="hl">来源</span>
+    <span class="hs">· 子晴日记 ·</span>
+    <a href="http://m.toutiao.com/group/7667968866848539180/" target="_blank" onclick="event.stopPropagation()">原文链接</a>
+  </div>
+</div>
+<div class="bi" onclick="window.open('http://m.163.com/dy/article/L342N8OK051188EA.html','_blank')">
+  <span class="bi-arrow">↗</span>
+  <div class="bi-top">
+    <span class="bi-time">07/30</span>
+    <span class="bi-rank a-grade">A级·#34</span>
+    <span class="bi-score">68分</span>
+    <span class="bi-stag self">自媒体</span>
+    <span class="bi-kw">自有品牌</span><span class="bi-kw">餐饮供应链</span><span class="bi-kw">盒马</span><span class="bi-kw">山姆</span>
+  </div>
+  <div class="bi-title">谁亲手埋葬了餐饮的品牌信仰？渠道自有品牌重塑供应链格局</div>
+  <div class="bi-body">商超及即时零售平台强化自有品牌，山姆、盒马、沃尔玛等在烘焙鲜食、预制菜等高频场景发力。盒马自有品牌SKU超1200个、销售占比达35%，朴朴自有品牌销售额破50亿。渠道开始定义商品并完成品质筛选，对供应端企业的C端品牌化战略带来冲击，重塑餐饮与食品零售供应链格局。</div>
+  <div class="bi-hit">
+    <span class="hl">来源</span>
+    <span class="hs">· 红餐供应链指南 ·</span>
+    <a href="http://m.163.com/dy/article/L342N8OK051188EA.html" target="_blank" onclick="event.stopPropagation()">原文链接</a>
+  </div>
+</div>
+<div class="bi" onclick="window.open('http://m.toutiao.com/group/7667881686798647848/','_blank')">
+  <span class="bi-arrow">↗</span>
+  <div class="bi-top">
+    <span class="bi-time">07/29</span>
+    <span class="bi-rank a-grade">A级·#35</span>
+    <span class="bi-score">68分</span>
+    <span class="bi-stag self">自媒体</span>
+    <span class="bi-kw">快消市场</span><span class="bi-kw">饮料量增价跌</span><span class="bi-kw">即时零售</span><span class="bi-kw">自有品牌</span>
+  </div>
+  <div class="bi-title">2026上半年快消市场温和修复：饮料量增价跌，即时零售与自有品牌爆发</div>
+  <div class="bi-body">纽锐拓数据显示，2026上半年城镇快消销售额微降0.3%，二季度回暖。食品刚需坚挺，饮料量增价跌；线下渠道分化，沃尔玛、盒马份额提升，量贩零食与硬折扣加速渗透；线上销售额增9%，即时零售渗透率达24.8%，自有品牌销售额激增超60%，市场进入质价比主导新周期。</div>
+  <div class="bi-hit">
+    <span class="hl">来源</span>
+    <span class="hs">· 东方快消品中心 ·</span>
+    <a href="http://m.toutiao.com/group/7667881686798647848/" target="_blank" onclick="event.stopPropagation()">原文链接</a>
+  </div>
+</div>
+<div class="bi" onclick="window.open('http://m.toutiao.com/group/7669034695674184192/','_blank')">
+  <span class="bi-arrow">↗</span>
+  <div class="bi-top">
+    <span class="bi-time">08/01</span>
+    <span class="bi-rank a-grade">A级·#36</span>
+    <span class="bi-score">68分</span>
+    <span class="bi-stag self">自媒体</span>
+    <span class="bi-kw">量贩零食</span><span class="bi-kw">鸣鸣很忙</span><span class="bi-kw">万辰集团</span><span class="bi-kw">单店盈利</span>
+  </div>
+  <div class="bi-title">量贩零食赛道洗牌：头部品牌万店狂飙背后，单店盈利艰难与行业转向精细化运营</div>
+  <div class="bi-body">量贩零食赛道在资本催熟下迎来万店规模，鸣鸣很忙与万辰集团门店数均超万家。然而，行业低价逻辑导致单店毛利微薄，内卷加剧致使闭店率上升。目前，头部品牌已从盲目拓店转向内部整顿与精细化运营，行业野蛮扩张时代结束，进入存量博弈阶段。</div>
+  <div class="bi-hit">
+    <span class="hl">来源</span>
+    <span class="hs">· 东哥说 ·</span>
+    <a href="http://m.toutiao.com/group/7669034695674184192/" target="_blank" onclick="event.stopPropagation()">原文链接</a>
+  </div>
+</div>
+<div class="bi" onclick="window.open('http://m.toutiao.com/group/7669723846148227630/','_blank')">
+  <span class="bi-arrow">↗</span>
+  <div class="bi-top">
+    <span class="bi-time">08/03</span>
+    <span class="bi-rank a-grade">A级·#37</span>
+    <span class="bi-score">68分</span>
+    <span class="bi-stag self">自媒体</span>
+    <span class="bi-kw">社区生鲜</span><span class="bi-kw">朴朴超市</span><span class="bi-kw">钱大妈</span><span class="bi-kw">前置仓</span>
+  </div>
+  <div class="bi-title">朴朴盈利、钱大妈冲刺IPO背后：2026社区生鲜的活路，只剩“店仓一体”与“店+团购枢纽”</div>
+  <div class="bi-body">朴朴超市2024年首次盈利，全年营收约300亿元；钱大妈以2938家门店冲刺IPO。本文剖析2026年社区生鲜两大存活路径：“店仓一体”前置仓模式与“店+团购枢纽”模式，指出两者成本结构与适用场景截然不同，前者重履约效率，后者重社群与低库存。</div>
+  <div class="bi-hit">
+    <span class="hl">来源</span>
+    <span class="hs">· 行业杂叙 ·</span>
+    <a href="http://m.toutiao.com/group/7669723846148227630/" target="_blank" onclick="event.stopPropagation()">原文链接</a>
+  </div>
+</div>
+<div class="bi" onclick="window.open('http://m.toutiao.com/group/7670110931879215656/','_blank')">
+  <span class="bi-arrow">↗</span>
+  <div class="bi-top">
+    <span class="bi-time">08/05</span>
+    <span class="bi-rank a-grade">A级·#38</span>
+    <span class="bi-score">68分</span>
+    <span class="bi-stag self">自媒体</span>
+    <span class="bi-kw">清凉经济</span><span class="bi-kw">即时零售</span><span class="bi-kw">冰杯</span><span class="bi-kw">盒马</span>
+  </div>
+  <div class="bi-title">高温催生的新品类与新营销：即时零售重塑清凉经济</div>
+  <div class="bi-body">2026年夏季高温催生“清凉经济”，冰杯、便携制冷等细分品类爆发。即时零售成为核心载体，京东、美团、盒马等平台通过场景设计与履约创新抢占冰品冰饮市场。预计2026年中国冰品与冰饮即时零售市场规模将突破630亿元。</div>
+  <div class="bi-hit">
+    <span class="hl">来源</span>
+    <span class="hs">· 数字营销市场 ·</span>
+    <a href="http://m.toutiao.com/group/7670110931879215656/" target="_blank" onclick="event.stopPropagation()">原文链接</a>
+  </div>
+</div>
+<div class="bi" onclick="window.open('http://m.toutiao.com/group/7668628300654264842/','_blank')">
+  <span class="bi-arrow">↗</span>
+  <div class="bi-top">
+    <span class="bi-time">07/31</span>
+    <span class="bi-rank a-grade">A级·#39</span>
+    <span class="bi-score">68分</span>
+    <span class="bi-stag self">自媒体</span>
+    <span class="bi-kw">袁记云饺</span><span class="bi-kw">港股IPO</span><span class="bi-kw">中式快餐</span><span class="bi-kw">餐饮上市</span>
+  </div>
+  <div class="bi-title">袁记云饺冲刺港股：已获IPO备案，2026年前5月营收13亿利润1.57亿</div>
+  <div class="bi-body">袁记云饺更新招股书冲刺港股上市，已获IPO备案。公司超90%收入来自超4700家门店网络。2023至2025年营收稳步增长，2026年前5个月营收达13亿元，期内利润1.57亿元。此前已完成B轮及B+轮共计4.3亿元融资。</div>
+  <div class="bi-hit">
+    <span class="hl">来源</span>
+    <span class="hs">· 行业新视角 ·</span>
+    <a href="http://m.toutiao.com/group/7668628300654264842/" target="_blank" onclick="event.stopPropagation()">原文链接</a>
+  </div>
+</div>
+<div class="bi" onclick="window.open('http://m.toutiao.com/group/7668147343073624618/','_blank')">
+  <span class="bi-arrow">↗</span>
+  <div class="bi-top">
+    <span class="bi-time">07/30</span>
+    <span class="bi-rank a-grade">A级·#40</span>
+    <span class="bi-score">65分</span>
+    <span class="bi-stag self">自媒体</span>
+    <span class="bi-kw">百菲乳业</span><span class="bi-kw">港交所上市</span><span class="bi-kw">水牛奶</span><span class="bi-kw">IPO</span>
+  </div>
+  <div class="bi-title">百菲乳业递表港交所：水牛乳制品龙头辗转多地谋求上市</div>
+  <div class="bi-body">广西百菲乳业近日正式向港交所递交上市申请。作为中国水牛乳制品行业排名第一、年营收超16亿元的细分龙头，百菲乳业此前曾辗转上交所、北交所尝试A股上市。此次IPO募资将主要用于扩大供应链、加强品牌营销及产品研发。</div>
+  <div class="bi-hit">
+    <span class="hl">来源</span>
+    <span class="hs">· 澎湃新闻 ·</span>
+    <a href="http://m.toutiao.com/group/7668147343073624618/" target="_blank" onclick="event.stopPropagation()">原文链接</a>
+  </div>
+</div>
+<div class="bi" onclick="window.open('https://world.gafei.com/coffee102754.html','_blank')">
+  <span class="bi-arrow">↗</span>
+  <div class="bi-top">
+    <span class="bi-time">08/05</span>
+    <span class="bi-rank a-grade">A级·#41</span>
+    <span class="bi-score">64分</span>
+    <span class="bi-stag self">自媒体</span>
+    <span class="bi-kw">星巴克</span><span class="bi-kw">瓶装星冰乐</span><span class="bi-kw">即饮茶</span><span class="bi-kw">饮品零售化</span>
+  </div>
+  <div class="bi-title">星巴克首次在华推出瓶装即饮茶，瓶装星冰乐上新红茶与抹茶口味</div>
+  <div class="bi-body">星巴克在中国市场首次推出瓶装星冰乐即饮茶饮料，包括红茶和抹茶两款新品。这是瓶装星冰乐首次涉足即饮茶领域，其中抹茶口味为全球首发。新品专为中国消费者定制，结合线下门店热门口味研发，标志着星巴克在华即饮业务向茶饮赛道的重要拓展。</div>
+  <div class="bi-hit">
+    <span class="hl">来源</span>
+    <span class="hs">· World Gafei ·</span>
+    <a href="https://world.gafei.com/coffee102754.html" target="_blank" onclick="event.stopPropagation()">原文链接</a>
+  </div>
+</div>
+<div class="bi" onclick="window.open('http://m.toutiao.com/group/7668287418902118912/','_blank')">
+  <span class="bi-arrow">↗</span>
+  <div class="bi-top">
+    <span class="bi-time">07/30</span>
+    <span class="bi-rank a-grade">A级·#42</span>
+    <span class="bi-score">64分</span>
+    <span class="bi-stag self">自媒体</span>
+    <span class="bi-kw">Costco扩张</span><span class="bi-kw">餐饮收入</span><span class="bi-kw">中式快餐</span><span class="bi-kw">自有品牌</span>
+  </div>
+  <div class="bi-title">Costco拟在华加速扩张；二季度全国餐饮收入低位增长</div>
+  <div class="bi-body">2026年Q2全国餐饮收入13632亿元，现制饮品与烧烤景气度回升。Costco计划未来五年在华新增9家门店并入驻京东。中式快餐大举入驻顶流商场，山姆、盒马等渠道自有品牌加速蚕食餐饮品牌溢价。此外，茶咖品牌热推无醇酒感新品，柠季称收并购将成行业常态。</div>
+  <div class="bi-hit">
+    <span class="hl">来源</span>
+    <span class="hs">· 零售商业财经 ·</span>
+    <a href="http://m.toutiao.com/group/7668287418902118912/" target="_blank" onclick="event.stopPropagation()">原文链接</a>
+  </div>
+</div>
+</div>
+
+<!-- B级 -->
+<div class="grade-section">
+<div class="sh">
+  <span class="sh-icon">⭐</span>
+  <span class="sh-title blue">B级 · 有参考价值动态</span>
+  <span class="sh-hint">33条 · 值得了解</span>
+</div>
+
+<div class="bi compact" onclick="window.open('http://m.toutiao.com/group/7669646997254619711/','_blank')">
+  <span class="bi-arrow">↗</span>
+  <div class="bi-top">
+    <span class="bi-time">08/03</span>
+    <span class="bi-rank b-grade">B级·#1</span>
+    <span class="bi-score">75分</span>
+    <span class="bi-stag industry">行业媒体</span>
+    <span class="bi-kw">新茶饮</span><span class="bi-kw">啤酒风味</span><span class="bi-kw">微醺经济</span><span class="bi-kw">消费场景</span>
+  </div>
+  <div class="bi-title">新茶饮扎堆“卖酒”：喜茶瑞幸等推啤酒风味饮品，上游原料销量破200吨</div>
+  <div class="bi-hit">
+    <span class="hl">来源</span>
+    <span class="hs">· 餐饮老板内参 ·</span>
+    <a href="http://m.toutiao.com/group/7669646997254619711/" target="_blank" onclick="event.stopPropagation()">原文</a>
+  </div>
+</div>
+<div class="bi compact" onclick="window.open('https://m.sohu.com/a/1056331666_121456561/','_blank')">
+  <span class="bi-arrow">↗</span>
+  <div class="bi-top">
+    <span class="bi-time">07/29</span>
+    <span class="bi-rank b-grade">B级·#2</span>
+    <span class="bi-score">75分</span>
+    <span class="bi-stag official">品牌官方</span>
+    <span class="bi-kw">喜茶</span><span class="bi-kw">海外扩张</span><span class="bi-kw">DIY定制</span><span class="bi-kw">工艺店</span>
+  </div>
+  <div class="bi-title">喜茶开始做“慢生意”：纽约开首家茶坊，全国上线DIY定制</div>
+  <div class="bi-hit">
+    <span class="hl">来源</span>
+    <span class="hs">· 品牌议题 ·</span>
+    <a href="https://m.sohu.com/a/1056331666_121456561/" target="_blank" onclick="event.stopPropagation()">原文</a>
+  </div>
+</div>
+<div class="bi compact" onclick="window.open('https://foodaily.com/articles/42009','_blank')">
+  <span class="bi-arrow">↗</span>
+  <div class="bi-top">
+    <span class="bi-time">07/31</span>
+    <span class="bi-rank b-grade">B级·#3</span>
+    <span class="bi-score">75分</span>
+    <span class="bi-stag industry">行业媒体</span>
+    <span class="bi-kw">7-Eleven</span><span class="bi-kw">新鲜零食</span><span class="bi-kw">便利店</span><span class="bi-kw">品类创新</span>
+  </div>
+  <div class="bi-title">7-Eleven上线“7鲜零食”切入新鲜零食赛道，谋求便利店差异化突围</div>
+  <div class="bi-hit">
+    <span class="hl">来源</span>
+    <span class="hs">· 零售圈 ·</span>
+    <a href="https://foodaily.com/articles/42009" target="_blank" onclick="event.stopPropagation()">原文</a>
+  </div>
+</div>
+<div class="bi compact" onclick="window.open('https://m.jiemian.com/article/14877980.html','_blank')">
+  <span class="bi-arrow">↗</span>
+  <div class="bi-top">
+    <span class="bi-time">08/05</span>
+    <span class="bi-rank b-grade">B级·#4</span>
+    <span class="bi-score">75分</span>
+    <span class="bi-stag commercial">商业媒体</span>
+    <span class="bi-kw">金粒门</span><span class="bi-kw">盛香亭</span><span class="bi-kw">新鲜零食</span><span class="bi-kw">回转热卤</span>
+  </div>
+  <div class="bi-title">金粒门“平替”山姆、盛香亭“平替”寿司郎，湖南餐饮品牌加速布局华南</div>
+  <div class="bi-hit">
+    <span class="hl">来源</span>
+    <span class="hs">· 界面新闻 ·</span>
+    <a href="https://m.jiemian.com/article/14877980.html" target="_blank" onclick="event.stopPropagation()">原文</a>
+  </div>
+</div>
+<div class="bi compact" onclick="window.open('https://m.jiemian.com/article/14875061.html','_blank')">
+  <span class="bi-arrow">↗</span>
+  <div class="bi-top">
+    <span class="bi-time">08/05</span>
+    <span class="bi-rank b-grade">B级·#5</span>
+    <span class="bi-score">75分</span>
+    <span class="bi-stag commercial">商业媒体</span>
+    <span class="bi-kw">玛氏</span><span class="bi-kw">Trü Frü</span><span class="bi-kw">冻干水果</span><span class="bi-kw">巧克力</span>
+  </div>
+  <div class="bi-title">玛氏引进Trü Frü品牌进驻山姆，试水“冻干水果+巧克力”新赛道</div>
+  <div class="bi-hit">
+    <span class="hl">来源</span>
+    <span class="hs">· 界面新闻 ·</span>
+    <a href="https://m.jiemian.com/article/14875061.html" target="_blank" onclick="event.stopPropagation()">原文</a>
+  </div>
+</div>
+<div class="bi compact" onclick="window.open('https://36kr.com/p/3917809622756740','_blank')">
+  <span class="bi-arrow">↗</span>
+  <div class="bi-top">
+    <span class="bi-time">07/30</span>
+    <span class="bi-rank b-grade">B级·#6</span>
+    <span class="bi-score">75分</span>
+    <span class="bi-stag commercial">商业媒体</span>
+    <span class="bi-kw">新茶饮</span><span class="bi-kw">加盟模式</span><span class="bi-kw">上市公司</span><span class="bi-kw">门店扩张</span>
+  </div>
+  <div class="bi-title">六家茶饮上市公司和他们的加盟商</div>
+  <div class="bi-hit">
+    <span class="hl">来源</span>
+    <span class="hs">· 消费纪 ·</span>
+    <a href="https://36kr.com/p/3917809622756740" target="_blank" onclick="event.stopPropagation()">原文</a>
+  </div>
+</div>
+<div class="bi compact" onclick="window.open('https://www.unilever.com/news/news-search/2026/gen-z-demand-for-authentic-cuisine-drives-growth-for-ufs/','_blank')">
+  <span class="bi-arrow">↗</span>
+  <div class="bi-top">
+    <span class="bi-time">08/03</span>
+    <span class="bi-rank b-grade">B级·#7</span>
+    <span class="bi-score">65分</span>
+    <span class="bi-stag official">品牌官方</span>
+    <span class="bi-kw">联合利华</span><span class="bi-kw">Z世代</span><span class="bi-kw">全球风味</span><span class="bi-kw">餐饮供应链</span>
+  </div>
+  <div class="bi-title">Z世代正宗风味需求驱动联合利华食品解决方案业务增长</div>
+  <div class="bi-hit">
+    <span class="hl">来源</span>
+    <span class="hs">· 联合利华官网 ·</span>
+    <a href="https://www.unilever.com/news/news-search/2026/gen-z-demand-for-authentic-cuisine-drives-growth-for-ufs/" target="_blank" onclick="event.stopPropagation()">原文</a>
+  </div>
+</div>
+<div class="bi compact" onclick="window.open('https://36kr.com/p/3923038371835268','_blank')">
+  <span class="bi-arrow">↗</span>
+  <div class="bi-top">
+    <span class="bi-time">08/03</span>
+    <span class="bi-rank b-grade">B级·#8</span>
+    <span class="bi-score">65分</span>
+    <span class="bi-stag commercial">商业媒体</span>
+    <span class="bi-kw">含糖碳酸饮料</span><span class="bi-kw">消费趋势</span><span class="bi-kw">健康饮品</span><span class="bi-kw">饮料市场</span>
+  </div>
+  <div class="bi-title">含糖碳酸饮料大势已去，健康饮品成消费新趋势</div>
+  <div class="bi-hit">
+    <span class="hl">来源</span>
+    <span class="hs">· 36氪 ·</span>
+    <a href="https://36kr.com/p/3923038371835268" target="_blank" onclick="event.stopPropagation()">原文</a>
+  </div>
+</div>
+<div class="bi compact" onclick="window.open('https://www.refreshmentmag.com/news/starbucks-adds-matcha-lattes-and-pumpkin-spice-frappuccino-to-uk-rtd-range','_blank')">
+  <span class="bi-arrow">↗</span>
+  <div class="bi-top">
+    <span class="bi-time">08/04</span>
+    <span class="bi-rank b-grade">B级·#9</span>
+    <span class="bi-score">65分</span>
+    <span class="bi-stag official">品牌官方</span>
+    <span class="bi-kw">星巴克</span><span class="bi-kw">即饮咖啡</span><span class="bi-kw">抹茶拿铁</span><span class="bi-kw">南瓜香料星冰乐</span>
+  </div>
+  <div class="bi-title">星巴克在英国推出抹茶拿铁及南瓜香料星冰乐即饮新品</div>
+  <div class="bi-hit">
+    <span class="hl">来源</span>
+    <span class="hs">· Refreshment Mag ·</span>
+    <a href="https://www.refreshmentmag.com/news/starbucks-adds-matcha-lattes-and-pumpkin-spice-frappuccino-to-uk-rtd-range" target="_blank" onclick="event.stopPropagation()">原文</a>
+  </div>
+</div>
+<div class="bi compact" onclick="window.open('http://m.163.com/dy/article/L31HE0UF05568Z31.html','_blank')">
+  <span class="bi-arrow">↗</span>
+  <div class="bi-top">
+    <span class="bi-time">07/29</span>
+    <span class="bi-rank b-grade">B级·#10</span>
+    <span class="bi-score">65分</span>
+    <span class="bi-stag commercial">商业媒体</span>
+    <span class="bi-kw">赵一鸣零食</span><span class="bi-kw">好想来</span><span class="bi-kw">量贩零食</span><span class="bi-kw">价格套路</span>
+  </div>
+  <div class="bi-title">官媒曝光量贩零食巨头赵一鸣、好想来暗藏包装套路，折算后比超市贵</div>
+  <div class="bi-hit">
+    <span class="hl">来源</span>
+    <span class="hs">· 网易新闻 ·</span>
+    <a href="http://m.163.com/dy/article/L31HE0UF05568Z31.html" target="_blank" onclick="event.stopPropagation()">原文</a>
+  </div>
+</div>
+<div class="bi compact" onclick="window.open('http://m.toutiao.com/group/7668313933278757428/','_blank')">
+  <span class="bi-arrow">↗</span>
+  <div class="bi-top">
+    <span class="bi-time">07/30</span>
+    <span class="bi-rank b-grade">B级·#11</span>
+    <span class="bi-score">64分</span>
+    <span class="bi-stag self">自媒体</span>
+    <span class="bi-kw">无糖饮品</span><span class="bi-kw">消费趋势</span><span class="bi-kw">饮品零售</span><span class="bi-kw">中式养生水</span>
+  </div>
+  <div class="bi-title">无糖饮品霸屏冷柜C位，饮料行业迎来健康轻量化变局</div>
+  <div class="bi-hit">
+    <span class="hl">来源</span>
+    <span class="hs">· 南方+客户端 ·</span>
+    <a href="http://m.toutiao.com/group/7668313933278757428/" target="_blank" onclick="event.stopPropagation()">原文</a>
+  </div>
+</div>
+<div class="bi compact" onclick="window.open('https://chosunbiz-chosunbiz-prod.cdn.arcpublishing.com/distribution/channel/2026/08/04/B43BGASKTFBZ5DH72BUZ7Z3BFE/','_blank')">
+  <span class="bi-arrow">↗</span>
+  <div class="bi-top">
+    <span class="bi-time">08/04</span>
+    <span class="bi-rank b-grade">B级·#12</span>
+    <span class="bi-score">60分</span>
+    <span class="bi-stag self">自媒体</span>
+    <span class="bi-kw">餐饮零售化</span><span class="bi-kw">简便食品</span><span class="bi-kw">品质升级</span><span class="bi-kw">名店合作</span>
+  </div>
+  <div class="bi-title">韩国食品企业加码“3分钟简便食品” 携手名店与直火技术推动餐饮零售化升级</div>
+  <div class="bi-hit">
+    <span class="hl">来源</span>
+    <span class="hs">· 朝鲜Biz ·</span>
+    <a href="https://chosunbiz-chosunbiz-prod.cdn.arcpublishing.com/distribution/channel/2026/08/04/B43BGASKTFBZ5DH72BUZ7Z3BFE/" target="_blank" onclick="event.stopPropagation()">原文</a>
+  </div>
+</div>
+<div class="bi compact" onclick="window.open('http://m.toutiao.com/group/7668549356493013538/','_blank')">
+  <span class="bi-arrow">↗</span>
+  <div class="bi-top">
+    <span class="bi-time">07/31</span>
+    <span class="bi-rank b-grade">B级·#13</span>
+    <span class="bi-score">60分</span>
+    <span class="bi-stag self">自媒体</span>
+    <span class="bi-kw">饮料市场</span><span class="bi-kw">价格带断裂</span><span class="bi-kw">无糖茶</span><span class="bi-kw">蜜雪冰城</span>
+  </div>
+  <div class="bi-title">饮料“价格带断裂”消费降级下的饮品赛道创投机会</div>
+  <div class="bi-hit">
+    <span class="hl">来源</span>
+    <span class="hs">· 赵博士_赛道战略顾问 ·</span>
+    <a href="http://m.toutiao.com/group/7668549356493013538/" target="_blank" onclick="event.stopPropagation()">原文</a>
+  </div>
+</div>
+<div class="bi compact" onclick="window.open('http://m.toutiao.com/group/7668596611273998894/','_blank')">
+  <span class="bi-arrow">↗</span>
+  <div class="bi-top">
+    <span class="bi-time">07/31</span>
+    <span class="bi-rank b-grade">B级·#14</span>
+    <span class="bi-score">60分</span>
+    <span class="bi-stag self">自媒体</span>
+    <span class="bi-kw">瑞幸咖啡</span><span class="bi-kw">商标侵权</span><span class="bi-kw">品牌出海</span><span class="bi-kw">东南亚市场</span>
+  </div>
+  <div class="bi-title">瑞幸诉泰国商标侵权案胜诉，东南亚缘何成中国品牌山寨重灾区？</div>
+  <div class="bi-hit">
+    <span class="hl">来源</span>
+    <span class="hs">· 观察者网 ·</span>
+    <a href="http://m.toutiao.com/group/7668596611273998894/" target="_blank" onclick="event.stopPropagation()">原文</a>
+  </div>
+</div>
+<div class="bi compact" onclick="window.open('https://biz.newdaily.co.kr/site/data/html/2026/07/30/2026073000055.html?sicode=01','_blank')">
+  <span class="bi-arrow">↗</span>
+  <div class="bi-top">
+    <span class="bi-time">07/30</span>
+    <span class="bi-rank b-grade">B级·#15</span>
+    <span class="bi-score">60分</span>
+    <span class="bi-stag self">自媒体</span>
+    <span class="bi-kw">星巴克</span><span class="bi-kw">新品上市</span><span class="bi-kw">价格策略</span><span class="bi-kw">年轻化消费</span>
+  </div>
+  <div class="bi-title">星巴克4900韩元“粉红桃子冰摇乐”月售30万杯，年轻化与下午茶场景成主力</div>
+  <div class="bi-hit">
+    <span class="hl">来源</span>
+    <span class="hs">· NewDaily ·</span>
+    <a href="https://biz.newdaily.co.kr/site/data/html/2026/07/30/2026073000055.html?sicode=01" target="_blank" onclick="event.stopPropagation()">原文</a>
+  </div>
+</div>
+<div class="bi compact" onclick="window.open('https://m.chinairn.com/hyzx/20260730/102752841.shtml','_blank')">
+  <span class="bi-arrow">↗</span>
+  <div class="bi-top">
+    <span class="bi-time">07/30</span>
+    <span class="bi-rank b-grade">B级·#16</span>
+    <span class="bi-score">60分</span>
+    <span class="bi-stag self">自媒体</span>
+    <span class="bi-kw">现制茶饮</span><span class="bi-kw">行业趋势</span><span class="bi-kw">供应链</span><span class="bi-kw">健康化</span>
+  </div>
+  <div class="bi-title">2026-2030年中国现制茶饮行业趋势报告：一杯茶的下一个五年赌局</div>
+  <div class="bi-hit">
+    <span class="hl">来源</span>
+    <span class="hs">· 中研网 ·</span>
+    <a href="https://m.chinairn.com/hyzx/20260730/102752841.shtml" target="_blank" onclick="event.stopPropagation()">原文</a>
+  </div>
+</div>
+<div class="bi compact" onclick="window.open('http://m.toutiao.com/group/7668228287194120744/','_blank')">
+  <span class="bi-arrow">↗</span>
+  <div class="bi-top">
+    <span class="bi-time">07/30</span>
+    <span class="bi-rank b-grade">B级·#17</span>
+    <span class="bi-score">60分</span>
+    <span class="bi-stag self">自媒体</span>
+    <span class="bi-kw">茶饮品牌</span><span class="bi-kw">早餐业务</span><span class="bi-kw">场景拓展</span><span class="bi-kw">供应链</span>
+  </div>
+  <div class="bi-title">茶饮品牌抢滩早餐：存量博弈下的场景拓展与供应链挑战</div>
+  <div class="bi-hit">
+    <span class="hl">来源</span>
+    <span class="hs">· 食品沃德 ·</span>
+    <a href="http://m.toutiao.com/group/7668228287194120744/" target="_blank" onclick="event.stopPropagation()">原文</a>
+  </div>
+</div>
+<div class="bi compact" onclick="window.open('http://m.toutiao.com/group/7668948208650846720/','_blank')">
+  <span class="bi-arrow">↗</span>
+  <div class="bi-top">
+    <span class="bi-time">08/01</span>
+    <span class="bi-rank b-grade">B级·#18</span>
+    <span class="bi-score">60分</span>
+    <span class="bi-stag self">自媒体</span>
+    <span class="bi-kw">餐饮副牌</span><span class="bi-kw">朴朴超市</span><span class="bi-kw">海底捞</span><span class="bi-kw">供应链</span>
+  </div>
+  <div class="bi-title">即时零售品牌卖火锅 火锅品牌做寿司 餐饮“副牌”怎么打？</div>
+  <div class="bi-hit">
+    <span class="hl">来源</span>
+    <span class="hs">· 锦观新闻 ·</span>
+    <a href="http://m.toutiao.com/group/7668948208650846720/" target="_blank" onclick="event.stopPropagation()">原文</a>
+  </div>
+</div>
+<div class="bi compact" onclick="window.open('http://m.toutiao.com/group/7670372901433950720/','_blank')">
+  <span class="bi-arrow">↗</span>
+  <div class="bi-top">
+    <span class="bi-time">08/05</span>
+    <span class="bi-rank b-grade">B级·#19</span>
+    <span class="bi-score">60分</span>
+    <span class="bi-stag self">自媒体</span>
+    <span class="bi-kw">双汇</span><span class="bi-kw">淘小胖</span><span class="bi-kw">新零售</span><span class="bi-kw">食材供应链</span>
+  </div>
+  <div class="bi-title">双汇跨界商超，淘小胖中原旗舰店开业开启新零售转型</div>
+  <div class="bi-hit">
+    <span class="hl">来源</span>
+    <span class="hs">· 商业笔记簿 ·</span>
+    <a href="http://m.toutiao.com/group/7670372901433950720/" target="_blank" onclick="event.stopPropagation()">原文</a>
+  </div>
+</div>
+<div class="bi compact" onclick="window.open('http://m.toutiao.com/group/7668613179328479790/','_blank')">
+  <span class="bi-arrow">↗</span>
+  <div class="bi-top">
+    <span class="bi-time">07/31</span>
+    <span class="bi-rank b-grade">B级·#20</span>
+    <span class="bi-score">60分</span>
+    <span class="bi-stag self">自媒体</span>
+    <span class="bi-kw">烘焙品牌</span><span class="bi-kw">复合业态</span><span class="bi-kw">幸运咖</span><span class="bi-kw">全聚德</span>
+  </div>
+  <div class="bi-title">烘焙品牌扎堆探索复合业态，幸运咖万店后战略转型加码高线城市</div>
+  <div class="bi-hit">
+    <span class="hl">来源</span>
+    <span class="hs">· 智慧零售与餐饮 ·</span>
+    <a href="http://m.toutiao.com/group/7668613179328479790/" target="_blank" onclick="event.stopPropagation()">原文</a>
+  </div>
+</div>
+<div class="bi compact" onclick="window.open('http://m.toutiao.com/group/7670317793018921506/','_blank')">
+  <span class="bi-arrow">↗</span>
+  <div class="bi-top">
+    <span class="bi-time">08/05</span>
+    <span class="bi-rank b-grade">B级·#21</span>
+    <span class="bi-score">60分</span>
+    <span class="bi-stag self">自媒体</span>
+    <span class="bi-kw">餐饮零售化</span><span class="bi-kw">百果园</span><span class="bi-kw">钱大妈</span><span class="bi-kw">便利店鲜食</span>
+  </div>
+  <div class="bi-title">百果园、钱大妈等零售门店加速餐饮化，跨界抢占餐饮生意</div>
+  <div class="bi-hit">
+    <span class="hl">来源</span>
+    <span class="hs">· 淡云品书香 ·</span>
+    <a href="http://m.toutiao.com/group/7670317793018921506/" target="_blank" onclick="event.stopPropagation()">原文</a>
+  </div>
+</div>
+<div class="bi compact" onclick="window.open('http://m.toutiao.com/group/7668694795413406271/','_blank')">
+  <span class="bi-arrow">↗</span>
+  <div class="bi-top">
+    <span class="bi-time">08/01</span>
+    <span class="bi-rank b-grade">B级·#22</span>
+    <span class="bi-score">60分</span>
+    <span class="bi-stag self">自媒体</span>
+    <span class="bi-kw">便利店</span><span class="bi-kw">即时零售</span><span class="bi-kw">鲜食</span><span class="bi-kw">餐饮化</span>
+  </div>
+  <div class="bi-title">便利店陷'增量不增客'困局，鲜食化与区域深耕成破局关键</div>
+  <div class="bi-hit">
+    <span class="hl">来源</span>
+    <span class="hs">· 小宋在成长 ·</span>
+    <a href="http://m.toutiao.com/group/7668694795413406271/" target="_blank" onclick="event.stopPropagation()">原文</a>
+  </div>
+</div>
+<div class="bi compact" onclick="window.open('https://youthdaily.co.kr/mobile/article.html?no=224244','_blank')">
+  <span class="bi-arrow">↗</span>
+  <div class="bi-top">
+    <span class="bi-time">08/01</span>
+    <span class="bi-rank b-grade">B级·#23</span>
+    <span class="bi-score">60分</span>
+    <span class="bi-stag self">自媒体</span>
+    <span class="bi-kw">便利店</span><span class="bi-kw">餐饮零售化</span><span class="bi-kw">新品上市</span><span class="bi-kw">粉丝经济</span>
+  </div>
+  <div class="bi-title">韩国四大便利店推甜点、酒类及健康简食新品，加速向内容消费平台转型</div>
+  <div class="bi-hit">
+    <span class="hl">来源</span>
+    <span class="hs">· 青年日报 ·</span>
+    <a href="https://youthdaily.co.kr/mobile/article.html?no=224244" target="_blank" onclick="event.stopPropagation()">原文</a>
+  </div>
+</div>
+<div class="bi compact" onclick="window.open('http://m.toutiao.com/group/7667794557777625626/','_blank')">
+  <span class="bi-arrow">↗</span>
+  <div class="bi-top">
+    <span class="bi-time">07/31</span>
+    <span class="bi-rank b-grade">B级·#24</span>
+    <span class="bi-score">60分</span>
+    <span class="bi-stag self">自媒体</span>
+    <span class="bi-kw">餐饮复苏</span><span class="bi-kw">结构性分化</span><span class="bi-kw">连锁化率</span><span class="bi-kw">商超自有品牌</span>
+  </div>
+  <div class="bi-title">2026消费板块会全面复苏吗？深度拆解对餐饮行业的多重影响</div>
+  <div class="bi-hit">
+    <span class="hl">来源</span>
+    <span class="hs">· 信鲜达-食材配送 ·</span>
+    <a href="http://m.toutiao.com/group/7667794557777625626/" target="_blank" onclick="event.stopPropagation()">原文</a>
+  </div>
+</div>
+<div class="bi compact" onclick="window.open('http://m.toutiao.com/group/7669304633369625126/','_blank')">
+  <span class="bi-arrow">↗</span>
+  <div class="bi-top">
+    <span class="bi-time">08/02</span>
+    <span class="bi-rank b-grade">B级·#25</span>
+    <span class="bi-score">60分</span>
+    <span class="bi-stag self">自媒体</span>
+    <span class="bi-kw">盒马鲜生</span><span class="bi-kw">门店扩张</span><span class="bi-kw">海鲜堂食</span><span class="bi-kw">区域布局</span>
+  </div>
+  <div class="bi-title">盒马鲜生太原二店预计10月开业，山西第三店将落地晋城</div>
+  <div class="bi-hit">
+    <span class="hl">来源</span>
+    <span class="hs">· 疯狂太原人 ·</span>
+    <a href="http://m.toutiao.com/group/7669304633369625126/" target="_blank" onclick="event.stopPropagation()">原文</a>
+  </div>
+</div>
+<div class="bi compact" onclick="window.open('https://www.inewfood.com/hpp-technology-expands-to-gummies-and-meats.html','_blank')">
+  <span class="bi-arrow">↗</span>
+  <div class="bi-top">
+    <span class="bi-time">07/31</span>
+    <span class="bi-rank b-grade">B级·#26</span>
+    <span class="bi-score">60分</span>
+    <span class="bi-stag self">自媒体</span>
+    <span class="bi-kw">HPP技术</span><span class="bi-kw">山姆会员店</span><span class="bi-kw">即食肉制品</span><span class="bi-kw">果汁软糖</span>
+  </div>
+  <div class="bi-title">山姆上架HPP果汁软糖，HPP技术加速向肉制品及零食赛道拓展</div>
+  <div class="bi-hit">
+    <span class="hl">来源</span>
+    <span class="hs">· 轻食Online ·</span>
+    <a href="https://www.inewfood.com/hpp-technology-expands-to-gummies-and-meats.html" target="_blank" onclick="event.stopPropagation()">原文</a>
+  </div>
+</div>
+<div class="bi compact" onclick="window.open('http://m.toutiao.com/group/7669293722428850742/','_blank')">
+  <span class="bi-arrow">↗</span>
+  <div class="bi-top">
+    <span class="bi-time">08/02</span>
+    <span class="bi-rank b-grade">B级·#27</span>
+    <span class="bi-score">60分</span>
+    <span class="bi-stag self">自媒体</span>
+    <span class="bi-kw">量贩零食</span><span class="bi-kw">调味品</span><span class="bi-kw">渠道变革</span><span class="bi-kw">折扣超市</span>
+  </div>
+  <div class="bi-title">调味品涌进量贩零食店，会踏上休闲食品的“老路”吗？</div>
+  <div class="bi-hit">
+    <span class="hl">来源</span>
+    <span class="hs">· 光能社 ·</span>
+    <a href="http://m.toutiao.com/group/7669293722428850742/" target="_blank" onclick="event.stopPropagation()">原文</a>
+  </div>
+</div>
+<div class="bi compact" onclick="window.open('http://m.toutiao.com/group/7669609620927595048/','_blank')">
+  <span class="bi-arrow">↗</span>
+  <div class="bi-top">
+    <span class="bi-time">08/03</span>
+    <span class="bi-rank b-grade">B级·#28</span>
+    <span class="bi-score">60分</span>
+    <span class="bi-stag self">自媒体</span>
+    <span class="bi-kw">即时零售</span><span class="bi-kw">酒水消费</span><span class="bi-kw">预制鸡尾酒</span><span class="bi-kw">精酿啤酒</span>
+  </div>
+  <div class="bi-title">今夏酒水即时零售提速，预制鸡尾酒成消费新风口</div>
+  <div class="bi-hit">
+    <span class="hl">来源</span>
+    <span class="hs">· 葡萄酒杂志 ·</span>
+    <a href="http://m.toutiao.com/group/7669609620927595048/" target="_blank" onclick="event.stopPropagation()">原文</a>
+  </div>
+</div>
+<div class="bi compact" onclick="window.open('http://m.toutiao.com/group/7670348892399862308/','_blank')">
+  <span class="bi-arrow">↗</span>
+  <div class="bi-top">
+    <span class="bi-time">08/05</span>
+    <span class="bi-rank b-grade">B级·#29</span>
+    <span class="bi-score">56分</span>
+    <span class="bi-stag self">自媒体</span>
+    <span class="bi-kw">即时零售</span><span class="bi-kw">美团闪购</span><span class="bi-kw">淘宝闪购</span><span class="bi-kw">京东秒送</span>
+  </div>
+  <div class="bi-title">即时零售日单量：美团1570万碾压京东175万，真正的赢家还没出现</div>
+  <div class="bi-hit">
+    <span class="hl">来源</span>
+    <span class="hs">· 榕晟运营 ·</span>
+    <a href="http://m.toutiao.com/group/7670348892399862308/" target="_blank" onclick="event.stopPropagation()">原文</a>
+  </div>
+</div>
+<div class="bi compact" onclick="window.open('http://m.toutiao.com/group/7669314803294356026/','_blank')">
+  <span class="bi-arrow">↗</span>
+  <div class="bi-top">
+    <span class="bi-time">08/02</span>
+    <span class="bi-rank b-grade">B级·#30</span>
+    <span class="bi-score">52分</span>
+    <span class="bi-stag self">自媒体</span>
+    <span class="bi-kw">蜜雪冰城</span><span class="bi-kw">新茶饮出海</span><span class="bi-kw">日本市场</span><span class="bi-kw">本土化</span>
+  </div>
+  <div class="bi-title">蜜雪冰城等中国新茶饮品牌日本市场遇冷 门店大幅缩减</div>
+  <div class="bi-hit">
+    <span class="hl">来源</span>
+    <span class="hs">· 猴子爱吃桃 ·</span>
+    <a href="http://m.toutiao.com/group/7669314803294356026/" target="_blank" onclick="event.stopPropagation()">原文</a>
+  </div>
+</div>
+<div class="bi compact" onclick="window.open('https://blog.csdn.net/weixin_45675709/article/details/160338638','_blank')">
+  <span class="bi-arrow">↗</span>
+  <div class="bi-top">
+    <span class="bi-time">08/03</span>
+    <span class="bi-rank b-grade">B级·#31</span>
+    <span class="bi-score">52分</span>
+    <span class="bi-stag self">自媒体</span>
+    <span class="bi-kw">即时零售</span><span class="bi-kw">闪电仓</span><span class="bi-kw">AI零售</span><span class="bi-kw">酒饮零售</span>
+  </div>
+  <div class="bi-title">2026即时零售迈入万亿时代：闪电仓与AI重构分钟级履约新纪元</div>
+  <div class="bi-hit">
+    <span class="hl">来源</span>
+    <span class="hs">· CSDN博客 ·</span>
+    <a href="https://blog.csdn.net/weixin_45675709/article/details/160338638" target="_blank" onclick="event.stopPropagation()">原文</a>
+  </div>
+</div>
+<div class="bi compact" onclick="window.open('https://www.luaninfo.com/laxw/bxgz/content_243323','_blank')">
+  <span class="bi-arrow">↗</span>
+  <div class="bi-top">
+    <span class="bi-time">07/29</span>
+    <span class="bi-rank b-grade">B级·#32</span>
+    <span class="bi-score">52分</span>
+    <span class="bi-stag self">自媒体</span>
+    <span class="bi-kw">时差经济</span><span class="bi-kw">快进商店</span><span class="bi-kw">远程值守</span><span class="bi-kw">夜间消费</span>
+  </div>
+  <div class="bi-title">快进商店发布世界杯战报：远程值守验证深夜刚需，凌晨消费订单激增</div>
+  <div class="bi-hit">
+    <span class="hl">来源</span>
+    <span class="hs">· 六安新闻网 ·</span>
+    <a href="https://www.luaninfo.com/laxw/bxgz/content_243323" target="_blank" onclick="event.stopPropagation()">原文</a>
+  </div>
+</div>
+<div class="bi compact" onclick="window.open('http://m.toutiao.com/group/7670246736811541038/','_blank')">
+  <span class="bi-arrow">↗</span>
+  <div class="bi-top">
+    <span class="bi-time">08/05</span>
+    <span class="bi-rank b-grade">B级·#33</span>
+    <span class="bi-score">52分</span>
+    <span class="bi-stag self">自媒体</span>
+    <span class="bi-kw">IPO</span><span class="bi-kw">并购</span><span class="bi-kw">海融科技</span><span class="bi-kw">糖盒食品</span>
+  </div>
+  <div class="bi-title">IPO与并购双轨升温：8月3日政策与市场信号释放清晰答案</div>
+  <div class="bi-hit">
+    <span class="hl">来源</span>
+    <span class="hs">· 创富营 ·</span>
+    <a href="http://m.toutiao.com/group/7670246736811541038/" target="_blank" onclick="event.stopPropagation()">原文</a>
+  </div>
+</div>
+</div>
+
+<!-- C级 -->
+<div class="grade-section">
+<div class="sh">
+  <span class="sh-icon">📰</span>
+  <span class="sh-title purple">C级 · 资讯类小动态</span>
+  <span class="sh-hint">4条 · 快速浏览</span>
+</div>
+
+<div class="bi compact" onclick="window.open('https://about.starbucks.com/stories/2026/starbucks-pumpkin-spice-coffees-creamers-and-ready-to-drink-beverages-arrive-in-grocery-stores/','_blank')">
+  <span class="bi-arrow">↗</span>
+  <div class="bi-top">
+    <span class="bi-time">08/03</span>
+    <span class="bi-rank c-grade">C级·#1</span>
+    <span class="bi-score">30分</span>
+    <span class="bi-stag official">品牌官方</span>
+    <span class="bi-kw">星巴克</span><span class="bi-kw">南瓜香料</span><span class="bi-kw">即饮饮料</span><span class="bi-kw">零售渠道</span>
+  </div>
+  <div class="bi-title">星巴克南瓜香料系列咖啡及即饮饮料重返全美杂货店</div>
+  <div class="bi-hit">
+    <span class="hl">来源</span>
+    <span class="hs">· 星巴克官方 ·</span>
+    <a href="https://about.starbucks.com/stories/2026/starbucks-pumpkin-spice-coffees-creamers-and-ready-to-drink-beverages-arrive-in-grocery-stores/" target="_blank" onclick="event.stopPropagation()">原文</a>
+  </div>
+</div>
+<div class="bi compact" onclick="window.open('http://m.toutiao.com/group/7669121245400547875/','_blank')">
+  <span class="bi-arrow">↗</span>
+  <div class="bi-top">
+    <span class="bi-time">08/02</span>
+    <span class="bi-rank c-grade">C级·#2</span>
+    <span class="bi-score">24分</span>
+    <span class="bi-stag self">自媒体</span>
+    <span class="bi-kw">盒马鲜生</span><span class="bi-kw">坪山首店</span><span class="bi-kw">生鲜零售</span><span class="bi-kw">即时零售</span>
+  </div>
+  <div class="bi-title">盒马鲜生深圳坪山首店正式开业，补齐东部高品质生鲜零售短板</div>
+  <div class="bi-hit">
+    <span class="hl">来源</span>
+    <span class="hs">· 零食测评 ·</span>
+    <a href="http://m.toutiao.com/group/7669121245400547875/" target="_blank" onclick="event.stopPropagation()">原文</a>
+  </div>
+</div>
+<div class="bi compact" onclick="window.open('https://m.weibo.cn/detail/5328507946403082','_blank')">
+  <span class="bi-arrow">↗</span>
+  <div class="bi-top">
+    <span class="bi-time">08/05</span>
+    <span class="bi-rank c-grade">C级·#3</span>
+    
+    <span class="bi-stag self">自媒体</span>
+    <span class="bi-kw">封面新闻</span><span class="bi-kw">微博</span><span class="bi-kw">资讯</span><span class="bi-kw">餐饮零售</span>
+  </div>
+  <div class="bi-title">封面新闻视频微博资讯</div>
+  <div class="bi-hit">
+    <span class="hl">来源</span>
+    <span class="hs">· 封面新闻 ·</span>
+    <a href="https://m.weibo.cn/detail/5328507946403082" target="_blank" onclick="event.stopPropagation()">原文</a>
+  </div>
+</div>
+<div class="bi compact" onclick="window.open('https://m.weibo.cn/detail/5328507950598677','_blank')">
+  <span class="bi-arrow">↗</span>
+  <div class="bi-top">
+    <span class="bi-time">08/05</span>
+    <span class="bi-rank c-grade">C级·#4</span>
+    
+    <span class="bi-stag self">自媒体</span>
+    <span class="bi-kw">微博动态</span><span class="bi-kw">抓取失败</span><span class="bi-kw">资阳快播报</span><span class="bi-kw">无效资讯</span>
+  </div>
+  <div class="bi-title">资阳快播报微博动态</div>
+  <div class="bi-hit">
+    <span class="hl">来源</span>
+    <span class="hs">· 资阳快播报 ·</span>
+    <a href="https://m.weibo.cn/detail/5328507950598677" target="_blank" onclick="event.stopPropagation()">原文</a>
+  </div>
+</div>
+</div>
+
+<!-- 今日洞察 -->
+<div class="sum">
+  <h3>💡 今日洞察</h3>
+  <p><strong>品类边界消融与渠道效率重构</strong></p>
+  <p>本期餐饮饮品零售赛道呈现“边界消融与效率重构”的双轨特征。饮品与餐饮品牌加速打破品类壁垒，通过“日茶夜酒”、跨界冰杯及发力无糖茶等健康品类寻找第二增长曲线。零售渠道端则告别盲目规模扩张，全面转向质量与效率驱动。即时零售前置仓成为巨头新基建，传统商超与便利店在客流分流压力下，加速推进折扣化、轻资产化与精细化调改。同时，预制菜国标落地与餐饮IPO遇冷标志着行业进入合规洗牌与资本理性回归的新周期。</p>
+  <ul><li>品类边界消融成为饮品零售化破局关键，品牌通过复用供应链向“全天候多业态”转型以对冲单一品类增长乏力。</li><li>零售渠道从“规模驱动”全面转向“效率驱动”，即时零售前置仓与折扣化业态成为商超便利店应对客流分流的两大核心解法。</li><li>资本退潮与监管趋严加速行业出清，餐饮IPO窗口收窄与预制菜国标落地倒逼企业从“营销驱动”回归“合规与盈利”本质。</li><li>巨头跨界与店中店模式在快速扩张的同时暴露出品控隐患，规模增长与标准化管控的矛盾将成为万店品牌的核心挑战。</li></ul>
+</div>
+
+<div class="ft">
+  <div class="ft-row">🛒 F&B RETAIL RADAR · 餐饮饮品零售热点雷达</div>
+  <div class="ft-row">每日自动更新 · 分级筛选 · 权威溯源 · 餐饮饮品零售化赛道</div>
+</div>
+
+</div>
+</body>
+</html>
